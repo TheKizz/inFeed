@@ -1,10 +1,19 @@
 {
-  "name": "app",
+  "name": "infeed",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Plataforma de encuestas interactivas: Crea, comparte y participa en encuestas personalizadas con tu comunidad, equipo o amigos. Únete a encuestas públicas o privadas por invitación, contribuye y comparte tu opinión.",
+  "author": {
+    "name": "Roberto Carlos Salas Valencia",
+    "email": "roberto.cs.valencia@gmail.com",
+    "url": "https://github.com/TheKizz"
+  },
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.12.2",
+    "npm": ">=10.2.5"
+  },
+  "engineStrict": true,
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -17,7 +26,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "format:check": "prettier . --check --ignore-path .gitignore",
+    "format:fix": "prettier . --write --ignore-path .gitignore",
+    "lint:check": "eslint . --ext .ts --ignore-path .gitignore",
+    "lint:fix": "eslint . --ext .ts --fix --ignore-path .gitignore",
+    "code:check": "npm run lint:check && npm run format:check",
+    "code:fix": "npm run lint:fix && npm run format:fix"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
