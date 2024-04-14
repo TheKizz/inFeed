@@ -36,85 +36,113 @@ Plataforma de encuestas interactivas: Crea, comparte y participa en encuestas pe
 
 ## 1. Introducción
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ## 2. Dominio
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ## 3. Análisis
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ### 3.1 Casos de uso
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+Diagramas de casos de uso para cada uno de los módulos del sistema, aquellas acciones que se encuentran con lineas discontinuas se especifican en un diagrama aparte para mejor comprensión, se recomienda revisar la documentación de cada uno de los módulos para obtener la mejor comprensión del sistema. [Ver detalles de los diagramas](./docs/use%20cases/detailed/ "Enlace hacia los diagramas de detalle").
+
+#### 3.1.1. Modulo de Encuentas
+
+![Diagrama de casos de uso (Modulo de encuestas)](./docs/use%20cases/survey-module.png "Diagrama de casos de uso (Modulo de encuestas)")
+
+#### 3.1.2. Modulo de Acceso de usuarios
+
+![Diagrama de casos de uso (Modulo de acceso de usuarios)](./docs/use%20cases/user-access-module.png "Diagrama de casos de uso (Modulo de acceso de usuarios)")
 
 ### 3.2. Dominio
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ## 4. Arquitectura y diseño
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
-### 4.1. modelos C4
+### 4.1. Modelo C4
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+#### 4.1.1. Diagrama de Contexto
+
+![Diagrama de contexto](./docs/architecture/C4/1-context.png "Diagrama de contexto")
+
+#### 4.1.2. Diagrama de Contenedores
+
+![Diagrama de contenedors](./docs/architecture/C4/2-container.png "Diagrama de contenedores")
+
+#### 4.1.3. Diagrama de componentes (alto nivel)
+
+![Diagrama de componentes (alto nivel)](./docs/architecture/C4/3-component-high-level.png "Diagrama de componentes (alto nivel)")
+
+#### 4.1.4. Diagrama de componentes (nivel de modulos)
+
+![Diagrama de componentes (nivel de modulos)](./docs/architecture/C4/4-component-module-level.png "Diagrama de componentes (nivel de modulos)")
 
 ### 4.2. Estructura general de módulos
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+![Diagrama de la estructura general de módulos](./docs/architecture/general-first-view.png "Diagrama de la estructura general de módulos")
 
 ### 4.3. Base de datos
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+[![Diagrama de base de datos](./docs/database/inFeedDB.png "Diagrama de base de datos")](./docs/database/inFeedDB.sql)
+_Pulsa la imagen para ver los scripts de la base de datos._
 
 ### 4.4. Seguridad
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ### 4.5. CI/CD
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ## 5. Documentación
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit turpis laoreet, primis mattis tempor nam ad condimentum dis. Conubia a natoque nec vitae sed scelerisque hendrerit parturient placerat nascetur libero, dis sapien odio potenti nullam litora diam quisque venenatis volutpat. Sed fringilla faucibus inceptos varius vitae id proin euismod, massa phasellus molestie augue aptent ante tincidunt, accumsan mattis mollis sapien rhoncus vehicula netus. Leo dictumst interdum vel eget a eleifend metus aenean nunc dapibus porta, euismod suspendisse cubilia cras auctor commodo suscipit viverra maecenas curae.
+En construcción.
 
 ## 6. Tecnologías
 
-Tecnologías utilizadas para la el funcionamiento del proyecto.
+Tecnologías utilizadas para el funcionamiento del proyecto.
 
-- [Visual Studio Code](https://www.npmjs.com/package/vscode)
-- [Node.js](https://www.npmjs.com/package/node)
-- [NPM](https://www.npmjs.com/package/npm)
-- [Typescript](https://www.npmjs.com/package/typescript)
-- [NestJS](https://www.npmjs.com/package/nestjs)
-- [Jest](https://www.npmjs.com/package/jest)
-- [Supertest](https://www.npmjs.com/package/supertest)
-  <!-- - [Postgres](https://www.npmjs.com/package/postgres) -->
-  <!-- - [Prisma](https://www.npmjs.com/package/prisma) -->
-  <!-- - [Docker](https://www.npmjs.com/package/docker) -->
+[![Visual Studio Code Badge](https://img.shields.io/badge/Visual%20Studio%20Code-grey?style=flat&logo=visual-studio-code&logoColor=blue)](https://code.visualstudio.com/ "Enlace hacia la pagina oficialde Visual Studio Code")
+[![Node.js Badge](https://img.shields.io/badge/Node.js-grey?style=flat&logo=node.js)](https://nodejs.org/ "Enlace hacia la pagina oficial de Node.js")
+[![NPM Badge](https://img.shields.io/badge/NPM-grey?style=flat&logo=npm)](https://npm.com/ "Enlace hacia la pagina oficial de NPM")
+[![Typescript Badge](https://img.shields.io/badge/Typescript-grey?style=flat&logo=typescript)](https://www.typescriptlang.org/ "Enlace hacia la pagina oficial de Typescript")
+[![NestJS Badge](https://img.shields.io/badge/NestJS-grey?style=flat&logo=nestjs&logoColor=red)](https://nestjs.com/ "Enlace hacia la pagina oficial de NestJS")
+[![Jest Badge](https://img.shields.io/badge/Jest-grey?style=flat&logo=jest&logoColor=pink)](https://jestjs.io/ "Enlace hacia la pagina oficial de Jest")
+[![Supertest Badge](https://img.shields.io/badge/Supertest-grey?style=flat&logo=super-test)](https://www.npmjs.com/package/supertest "Enlace hacia la pagina oficial de Supertest")
+[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-grey?style=flat&logo=postgresql)](https://www.postgresql.org/ "Enlace hacia la pagina oficial de PostgreSQL")
+[![Prisma Badge](https://img.shields.io/badge/Prisma-grey?style=flat&logo=prisma&logoColor=black)](https://www.prisma.io/ "Enlace hacia la pagina oficial de Prisma")
+
+_Pulsa la insignia para visitar el sitio web oficial de la tecnología._
 
 ## 7. Herramientas
 
-Herramientas utilizadas para la construcción del proyecto.
+Herramientas auxiliares utilizadas para la construcción y mantenimiento del proyecto.
 
-- [Excalidraw](https://excalidraw.com)
-- [Dbdiagram](https://dbdiagram.io)
-- [Git](https://www.npmjs.com/package/git)
-- [GitHub](https://www.npmjs.com/package/github)
-- [Prettier](https://www.npmjs.com/package/prettier)
-- [ESLint](https://www.npmjs.com/package/eslint)
-- [Husky](https://www.npmjs.com/package/husky)
-- [Commitlint](https://www.npmjs.com/package/commitlint)
-- [Commitizen](https://www.npmjs.com/package/commitizen)
-<!-- - [Postman](https://www.npmjs.com/package/postman) -->
+[![Excalidraw Badge](https://img.shields.io/badge/Excalidaw-grey?style=flat&logo=excalidraw)](https://excalidraw.com/ "Enlace hacia la pagina oficial de Excalidraw")
+[![Dbdiagram Badge](https://img.shields.io/badge/Dbdiagram-grey?style=flat&logo=dbdiagram)](https://dbdiagram.io/ "Enlace hacia la pagina oficial de Dbdiagram")
+[![Git Badge](https://img.shields.io/badge/Git-grey?style=flat&logo=git)](https://git-scm.com/ "Enlace hacia la pagina oficial de Git")
+[![Github Badge](https://img.shields.io/badge/Github-grey?style=flat&logo=github)](https://github.com/ "Enlace hacia la pagina oficial de Github")
+[![Prettier Badge](https://img.shields.io/badge/Prettier-grey?style=flat&logo=prettier)](https://prettier.io/ "Enlace hacia la pagina oficial de Prettier")
+[![ESlint Badge](https://img.shields.io/badge/ESlint-grey?style=flat&logo=eslint&logoColor=blueviolet)](https://eslint.org/ "Enlace hacia la pagina oficial de ESlint")
+[![Husky Badge](https://img.shields.io/badge/Husky-grey?style=flat&logo=husky)](https://typicode.github.io/husky/ "Enlace hacia la pagina oficial de Husky")
+[![Commitlint Badge](https://img.shields.io/badge/Commitlint-grey?style=flat&logo=commitlint)](https://commitlint.js.org/ "Enlace hacia la pagina oficial de Commitlint")
+[![Commitizen Badge](https://img.shields.io/badge/Commitizen-grey?style=flat&logo=commitizen)](https://commitizen-tools.github.io/commitizen/ "Enlace hacia la pagina oficial de Commitizen")
+[![Thunder Client Badge](https://img.shields.io/badge/Thunder%20Client-grey?style=flat&logo=thunder-client)](https://www.thunderclient.com/ "Enlace hacia la pagina oficial de Thunder Client")
+[![Swagger Badge](https://img.shields.io/badge/Swagger-grey?style=flat&logo=swagger)](https://swagger.io/ "Enlace hacia la pagina oficial de Swagger")
+[![Docker Badge](https://img.shields.io/badge/Docker-grey?style=flat&logo=docker)](https://www.docker.com/ "Enlace hacia la pagina oficial de Docker")
+
+_Pulsa la insignia para visitar el sitio web oficial de la tecnología._
 
 ## 8. Referencias
 
-Referencias a todo el material usado para la construcción de este proyecto, se otorgan los creditos correspondientes a cada fuente y sus autores correspondientes.
+Referencias a todo el material usado para la construcción de este proyecto, se otorgan los créditos correspondientes a cada fuente y sus autores correspondientes.
 
 - [Monolitos modulares](https://github.com/kgrzybek/modular-monolith-with-ddd?tab=readme-ov-file#30-c4-model)
 - [Las crónicas de la arquitectura de software](https://herbertograca.com/2017/07/03/the-software-architecture-chronicles/)
