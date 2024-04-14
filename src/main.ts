@@ -3,6 +3,7 @@ import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import * as compression from "compression";
 import helmet from "helmet";
+import { LoggerInterceptor } from "./modules/shared/presentation/interceptors/logger.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.useGlobalInterceptors(new LoggerInterceptor());
   app.use(compression());
   app.use(helmet());
   app.enableCors({

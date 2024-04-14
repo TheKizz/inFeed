@@ -3,7 +3,7 @@ import { PrismaClient } from "../../../../../node_modules/.prisma/client";
 
 export class PrismaClientService extends PrismaClient {
   constructor() {
-    const logger = new Logger(PrismaClientService.name);
+    const logger = new Logger(PrismaClientService.name, { timestamp: true });
     super();
     this.$connect()
       .then(() => {
