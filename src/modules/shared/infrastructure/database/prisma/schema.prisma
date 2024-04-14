@@ -1,0 +1,160 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_DB_URL")
+}
+
+model User {
+  id                         String             @id @map("ID_USER")
+  username                   String
+  email                      String
+  password                   String
+  isOnline                   Boolean
+  // Relations
+  createdSurveys             Survey[]
+  recievedSurveysInvitations SurveyInvitation[]
+  surveyResponses            SurveyResponse[]
+  notifications              Notification[]
+
+  @@index([email], map: "IDX_EMAIL")
+}
+
+model Survey {
+  id                     String                 @id @map("ID_SURVEY")
+  title                  String
+  description            String
+  isPublic               Boolean
+  participationCondition ParticipationCondition
+  forceToRate            Boolean
+  rating                 Float
+  startsAt               DateTime
+  endsAt                 DateTime?
+  creatorId              String                 @map("FK_ID_USER")
+  // Relations
+  creator                User                   @relation(fields: [creatorId], references: [id])
+  questions              Question[]
+  sentInvitations        SurveyInvitation[]
+  surveyResponses        SurveyResponse[]
+
+  @@index([title], map: "IDX_SURVEY_TITLE")
+  @@index([rating], map: "IDX_SURVEY_RATING")
+  @@index([creatorId], map: "IDX_SURVEY_CREATOR")
+}
+
+enum ParticipationCondition {
+  ALL
+  GUEST_USERS
+  REGISTERED_USERS
+}
+
+model SurveyInvitation {
+  id       String                   @id @map("ID_SURVEY_INVITATION")
+  surveyId String                   @map("FK_ID_SURVEY")
+  userId   String                   @map("FK_ID_USER")
+  status   SurveyInvitationStatuses
+  // Relations
+  survey   Survey                   @relation(fields: [surveyId], references: [id])
+  user     User                     @relation(fields: [userId], references: [id])
+
+  @@index([surveyId, userId], map: "IDX_SURVEY_INVITATION")
+}
+
+enum SurveyInvitationStatuses {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Question {
+  id            String             @id @map("ID_QUESTION")
+  surveyId      String             @map("FK_ID_SURVEY")
+  description   String
+  type          QuestionType
+  // Relations
+  survey        Survey             @relation(fields: [surveyId], references: [id])
+  answerOptions AnswerOption[]
+  responses     QuestionResponse[]
+
+  @@index([surveyId], map: "IDX_QUESTION_SURVEY")
+}
+
+enum QuestionType {
+  SINGLE
+  MULTIPLE
+  TEXT
+  DATE
+}
+
+model AnswerOption {
+  id          String                 @id @map("ID_ANSWER_OPTION")
+  questionId  String                 @map("FK_ID_QUESTION")
+  description String
+  isCorrect   Boolean
+  // Relations
+  question    Question               @relation(fields: [questionId], references: [id])
+  responses   AnswerOptionResponse[]
+
+  @@index([questionId], map: "IDX_ANSWER_OPTION_QUESTION")
+}
+
+model SurveyResponse {
+  id                 String             @id @map("ID_SURVEY_RESPONSE")
+  surveyId           String             @map("FK_ID_SURVEY")
+  userId             String             @map("FK_ID_USER")
+  rating             Float?
+  // Relations
+  survey             Survey             @relation(fields: [surveyId], references: [id])
+  participant        User               @relation(fields: [userId], references: [id])
+  questionsResponded QuestionResponse[]
+
+  @@index([surveyId, userId], map: "IDX_SURVEY_RESPONSE")
+}
+
+model QuestionResponse {
+  id                     String                 @id @map("ID_QUESTION_RESPONSE")
+  surveyResponseId       String                 @map("FK_ID_SURVEY_RESPONSE")
+  questionId             String                 @map("FK_ID_QUESTION")
+  // Relations
+  surveyResponse         SurveyResponse         @relation(fields: [surveyResponseId], references: [id])
+  question               Question               @relation(fields: [questionId], references: [id])
+  answerOptionsResponded AnswerOptionResponse[]
+
+  @@index([surveyResponseId, questionId], map: "IDX_QUESTION_RESPONSE")
+}
+
+model AnswerOptionResponse {
+  id                 String           @id @map("ID_ANSWER_OPTION_RESPONSE")
+  questionResponseId String           @map("FK_ID_QUESTION_RESPONSE")
+  answerOptionId     String           @map("FK_ID_ANSWER_OPTION")
+  // Relations
+  questionResponse   QuestionResponse @relation(fields: [questionResponseId], references: [id])
+  answerOption       AnswerOption     @relation(fields: [answerOptionId], references: [id])
+
+  @@index([questionResponseId, answerOptionId], map: "IDX_ANSWER_OPTION_RESPONSE")
+}
+
+model Notification {
+  id        String           @id @map("ID_NOTIFICATION")
+  userId    String           @map("FK_ID_USER")
+  title     String
+  body      String
+  link      String
+  isRead    Boolean
+  type      NotificationType
+  createdAt DateTime
+  // Relations
+  user      User             @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "IDX_NOTIFICATION_USER")
+  @@index([title], map: "IDX_NOTIFICATION_TITLE")
+  @@index([createdAt], map: "IDX_NOTIFICATION_CREATED_AT")
+}
+
+enum NotificationType {
+  SURVEY_INVITATION
+  SURVEY_INVITATION_EXPIRED
+}

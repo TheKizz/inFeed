@@ -1,0 +1,103 @@
+// Tables
+Table User {
+  ID_USER uuid [pk]
+  username varchar
+  email varchar
+  password varchar
+  isOnline bool  
+}
+
+Table Survey {
+  ID_SURVEY uuid [pk]
+  title varchar
+  description text
+  isPublic varchar
+  participationCondition ParticipationCondition
+  rating float
+  startsAt datetime
+  endsAt datetime
+  FK_ID_USER uuid [ref: > User.ID_USER]
+}
+
+Table ParticipantSurvey {
+  ID_PARTICIPANT_SURVEY uuid [pk]
+  FK_ID_USER uuid [ref: > User.ID_USER]
+  FK_ID_SURVEY uuid [ref: > Survey.ID_SURVEY]
+}
+
+Table SurveyInvitation {
+  ID_SURVEY_INVITATION uuid [pk]
+  FK_ID_SURVEY uuid [ref: > Survey.ID_SURVEY]
+  FK_ID_USER uuid [ref: > User.ID_USER]
+  status SurveyInvitationStatuses 
+}
+
+Table Question {
+  ID_QUESTION uuid [pk]
+  FK_ID_SURVEY uuid [ref: > Survey.ID_SURVEY]
+  description text
+  type QuestionType 
+}
+
+Table AnswerOption {
+  ID_ANSWER_OPTION uuid [pk]
+  FK_ID_QUESTION uuid [ref: > Question.ID_QUESTION]
+  description text
+  isCorrect bool
+}
+
+Table SurveyResponse {
+  ID_SURVEY_RESPONSE uuid [pk]
+  FK_ID_SURVEY uuid [ref: > Survey.ID_SURVEY]
+  FK_ID_USER uuid [ref: > User.ID_USER]
+  rating float
+}
+
+Table QuestionResponse {
+  ID_QUESTION_RESPONSE uuid [pk]
+  FK_ID_SURVEY_RESPONSE uuid [ref: > SurveyResponse.ID_SURVEY_RESPONSE]
+  FK_ID_QUESTION uuid [ref: > Question.ID_QUESTION]
+}
+
+Table AnswerOptionResponse {
+  ID_ANSWER_OPTION_RESPONSE uuid [pk]
+  FK_ID_QUESTION_RESPONSE uuid [ref: > QuestionResponse.ID_QUESTION_RESPONSE]
+  FK_ID_ANSWER_OPTION uuid [ref: > AnswerOption.ID_ANSWER_OPTION]
+}
+
+Table Notification {
+  ID_NOTIFICATION uuid [pk]
+  FK_ID_USER uuid [ref: > User.ID_USER]
+  title varchar
+  description text
+  link varchar
+  isRead bool
+  type NotificationType
+  createdAt datetime
+}
+
+// Enums
+Enum ParticipationCondition {
+  ALL
+  GUEST_USERS
+  REGISTERED_USERS
+}
+
+Enum SurveyInvitationStatuses {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+Enum QuestionType {
+  SINGLE
+  MULTIPLE
+  TEXT
+  DATE
+}
+
+Enum NotificationType {
+  SURVEY_INVITATION
+  SURVEY_INVITATION_EXPIRED
+}
+

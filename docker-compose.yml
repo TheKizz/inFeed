@@ -1,0 +1,19 @@
+version: "3.8"
+name: in-feed-app
+
+services:
+  in-feed-postgresql:
+    container_name: in-feed-postgresql
+    image: postgres:15.3
+    ports:
+      - ${POSTGRES_DB_PORT}:5432
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - in-feed-postgresql-volume:/var/lib/postgresql/data
+
+volumes:
+  in-feed-postgresql-volume:

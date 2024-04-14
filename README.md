@@ -90,7 +90,7 @@ En construcción.
 
 ### 4.3. Base de datos
 
-[![Diagrama de base de datos](./docs/database/inFeedDB.png "Diagrama de base de datos")](./docs/database/inFeedDB.sql)
+[![Diagrama de base de datos](./docs/database/inFeedDB.png "Diagrama de base de datos")](./src/modules/shared/infrastructure/database/prisma/migrations/)
 _Pulsa la imagen para ver los scripts de la base de datos._
 
 ### 4.4. Seguridad
