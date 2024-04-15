@@ -1,10 +1,10 @@
-import { type IEntity } from "../domain/entity.interface";
+import { type Entity } from "../domain/entity.abstract";
 import { type IPaginatedResult } from "./paginated-result.interface";
 import { type IQuery } from "./query.interface";
 
 export abstract class PaginatedRepository<
   IdType,
-  EntityType extends IEntity<IdType>,
+  EntityType extends Entity<IdType>,
 > {
   abstract search(
     query: IQuery<IdType>,

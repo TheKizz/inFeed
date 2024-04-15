@@ -7,4 +7,8 @@ export class StringValueObject extends ValueObject {
     super(false, value);
     this.value = value;
   }
+
+  toPrimitive(): string {
+    return this.value;
+  }
 }

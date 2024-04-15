@@ -7,4 +7,8 @@ export class BooleanValueObject extends ValueObject {
     super(false, value);
     this.value = value;
   }
+
+  toPrimitive(): boolean {
+    return this.value;
+  }
 }

@@ -22,4 +22,6 @@ export abstract class ValueObject {
   toString(): string {
     return JSON.stringify(this);
   }
+
+  abstract toPrimitive(): unknown;
 }

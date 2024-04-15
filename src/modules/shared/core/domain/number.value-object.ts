@@ -7,4 +7,8 @@ export class NumberValueObject extends ValueObject {
     super(false, value);
     this.value = value;
   }
+
+  toPrimitive(): number {
+    return this.value;
+  }
 }
