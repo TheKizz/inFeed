@@ -1,6 +1,6 @@
 import { ValueObject } from "./value-object.abstract";
 
-export class NumberValueObject extends ValueObject {
+export class BooleanValueObject extends ValueObject {
   readonly value: boolean;
 
   constructor(value: boolean) {
