@@ -1,4 +1,6 @@
-type EntityPropsName = keyof Pick<Entity<unknown>, "id">;
+export interface PrimitiveEntity<IdType> {
+  id: IdType;
+}
 
 export abstract class Entity<IdType> {
   readonly id: IdType;
@@ -7,20 +9,18 @@ export abstract class Entity<IdType> {
     this.id = id;
   }
 
-  protected getPrimitiveEntity<T extends string = EntityPropsName>(): Record<
-    T,
-    unknown
-  > {
-    const primitiveUserEntity: Record<T, unknown> = Object.entries(this).reduce(
+  protected getPrimitiveEntity<
+    OutputType extends PrimitiveEntity<unknown>,
+  >(): OutputType {
+    const primitiveUserEntity: OutputType = Object.entries(this).reduce(
       (object, [key, valueObject]) => {
-        return { ...object, [key]: valueObject.value };
+        const keyWithoutUnderscore: string = key.replace(/^_/, "");
+        return { ...object, [keyWithoutUnderscore]: valueObject.value };
       },
       {},
-    ) as Record<T, unknown>;
+    ) as OutputType;
     return primitiveUserEntity;
   }
 
-  abstract create(...props: unknown[]): unknown;
-  abstract clone(...props: unknown[]): unknown;
-  abstract toPrimitive(): Record<EntityPropsName, unknown>;
+  abstract toPrimitive(): PrimitiveEntity<unknown>;
 }

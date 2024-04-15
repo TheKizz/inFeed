@@ -1,9 +1,9 @@
 import { Logger } from "@nestjs/common";
 import { PrismaClient } from "../../../../../node_modules/.prisma/client";
 
-export class PrismaClientService extends PrismaClient {
+export class PrismaClientAdapter extends PrismaClient {
   constructor() {
-    const logger = new Logger(PrismaClientService.name, { timestamp: true });
+    const logger = new Logger(PrismaClientAdapter.name, { timestamp: true });
     super();
     this.$connect()
       .then(() => {
