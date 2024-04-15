@@ -5,10 +5,10 @@ interface IPrimitiveStringValueObject {
 }
 
 export class StringValueObject extends ValueObject {
-  protected readonly value?: string;
+  readonly value: string;
 
-  constructor(value?: string, isOptional: boolean = false) {
-    super(isOptional, value);
+  constructor(value: string) {
+    super(false, value);
     this.value = value;
   }
 

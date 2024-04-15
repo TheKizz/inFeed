@@ -1,10 +1,10 @@
 import { ValueObject } from "./value-object.abstract";
 
 export class NumberValueObject extends ValueObject {
-  protected readonly value?: boolean;
+  readonly value: boolean;
 
-  constructor(value?: boolean, isOptional: boolean = false) {
-    super(isOptional, value);
+  constructor(value: boolean) {
+    super(false, value);
     this.value = value;
   }
 }
