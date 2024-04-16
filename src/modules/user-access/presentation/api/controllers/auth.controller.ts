@@ -7,7 +7,9 @@ import { ResponseFactory } from "src/modules/shared/presentation/factories/respo
 import { UserEntity } from "src/modules/user-access/core/domain/entities/user.entity";
 import { type IResponse } from "src/modules/shared/presentation/interfaces/response.interface";
 import { LoginUserDto } from "../dto/login-user.dto";
+import { PublicResource } from "../consts/public-resource.const";
 
+@PublicResource()
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -33,6 +35,7 @@ export class AuthController {
   }
 
   @Post("login")
+  // @PublicResource()
   async login(
     @Body() loginUserDto: LoginUserDto,
   ): Promise<IResponse<IAuthResult>> {

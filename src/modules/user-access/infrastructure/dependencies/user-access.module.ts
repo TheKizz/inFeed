@@ -12,9 +12,21 @@ import { type IJwtService } from "src/modules/shared/core/application/jwt-servic
 import { PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
 import { FindUserByEmailUseCase } from "../../core/application/use-cases/find-user-by-email.use-case";
 import { LoginUserUseCase } from "../../core/application/use-cases/login-user.use-case";
+import { APP_GUARD, Reflector } from "@nestjs/core";
+import { AuthGuard } from "../../presentation/api/guards/auth.guard";
 
 @Module({
   providers: [
+    // Guards
+    {
+      provide: APP_GUARD,
+      useFactory: (
+        jwtService: IJwtService,
+        reflector: Reflector,
+        findUserByEmail: FindUserByEmailUseCase,
+      ) => new AuthGuard(jwtService, reflector, findUserByEmail),
+      inject: [NestJwtServiceAdapter, Reflector, FindUserByEmailUseCase],
+    },
     // Repositories
     {
       provide: PrismaUserRepositoryAdapter,
@@ -42,7 +54,12 @@ import { LoginUserUseCase } from "../../core/application/use-cases/login-user.us
       inject: [PrismaUserRepositoryAdapter],
     },
     // Services
-    UserService,
+    {
+      provide: UserService,
+      useFactory: (findUserByEmail: FindUserByEmailUseCase) =>
+        new UserService(findUserByEmail),
+      inject: [FindUserByEmailUseCase],
+    },
     {
       provide: AuthServiceAdapter,
       useFactory: (

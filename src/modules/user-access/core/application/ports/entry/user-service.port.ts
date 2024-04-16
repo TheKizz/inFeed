@@ -1,10 +1,6 @@
-import {
-  type IUserEntityCreationProps,
-  type UserEntity,
-} from "../../../domain/entities/user.entity";
+import { type UserEntity } from "../../../domain/entities/user.entity";
+import { type StringValueObject } from "src/modules/shared/core/domain/string.value-object";
 
 export interface IUserServicePort {
-  createUser: (
-    userCreationProps: IUserEntityCreationProps,
-  ) => Promise<UserEntity>;
+  findUserByEmail: (userEmail: StringValueObject) => Promise<UserEntity>;
 }
