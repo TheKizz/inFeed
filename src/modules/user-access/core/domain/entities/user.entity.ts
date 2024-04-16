@@ -23,10 +23,10 @@ export interface IPrimitiveUserEntity extends PrimitiveEntity<string> {
 }
 
 export class UserEntity extends Entity<UUIDValueObject> {
-  private readonly _username: StringValueObject;
-  private readonly _password: StringValueObject;
-  private readonly _email: StringValueObject;
-  private readonly _isOnline: BooleanValueObject;
+  private _username: StringValueObject;
+  private _password: StringValueObject;
+  private _email: StringValueObject;
+  private _isOnline: BooleanValueObject;
   // TODO: Add other properties
 
   constructor(props: IUserEntityProps) {
@@ -60,6 +60,14 @@ export class UserEntity extends Entity<UUIDValueObject> {
 
   toPrimitive(): IPrimitiveUserEntity {
     return this.getPrimitiveEntity<IPrimitiveUserEntity>();
+  }
+
+  establishIsOnline(): void {
+    this._isOnline = new BooleanValueObject(true);
+  }
+
+  establishIsOffline(): void {
+    this._isOnline = new BooleanValueObject(false);
   }
 
   get username(): StringValueObject {

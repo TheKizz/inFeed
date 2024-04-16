@@ -6,6 +6,7 @@ import { type IAuthResult } from "src/modules/user-access/core/application/inter
 import { ResponseFactory } from "src/modules/shared/presentation/factories/response.factory";
 import { UserEntity } from "src/modules/user-access/core/domain/entities/user.entity";
 import { type IResponse } from "src/modules/shared/presentation/interfaces/response.interface";
+import { LoginUserDto } from "../dto/login-user.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -18,15 +19,33 @@ export class AuthController {
     @Body() registerUserDto: RegisterUserDto,
   ): Promise<IResponse<IAuthResult>> {
     const data: IAuthResult = await this.authService.register(registerUserDto);
-    const user =
+    const primitiveUser =
       data.user instanceof UserEntity ? data.user.toPrimitive() : data.user;
-    delete user.password;
+    delete primitiveUser.password;
     return ResponseFactory.createSuccessfulResponse(
       HttpStatus.CREATED,
       "Usuario registrado exitosamente",
       {
         ...data,
-        user,
+        user: primitiveUser,
+      },
+    );
+  }
+
+  @Post("login")
+  async login(
+    @Body() loginUserDto: LoginUserDto,
+  ): Promise<IResponse<IAuthResult>> {
+    const data: IAuthResult = await this.authService.login(loginUserDto);
+    const primitiveUser =
+      data.user instanceof UserEntity ? data.user.toPrimitive() : data.user;
+    delete primitiveUser.password;
+    return ResponseFactory.createSuccessfulResponse(
+      HttpStatus.CREATED,
+      "Usuario registrado exitosamente",
+      {
+        ...data,
+        user: primitiveUser,
       },
     );
   }

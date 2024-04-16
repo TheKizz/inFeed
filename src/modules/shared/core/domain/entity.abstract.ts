@@ -3,10 +3,10 @@ export interface PrimitiveEntity<IdType> {
 }
 
 export abstract class Entity<IdType> {
-  readonly id: IdType;
+  protected readonly _id: IdType;
 
   protected constructor(id: IdType) {
-    this.id = id;
+    this._id = id;
   }
 
   protected getPrimitiveEntity<
@@ -20,6 +20,10 @@ export abstract class Entity<IdType> {
       {},
     ) as OutputType;
     return primitiveUserEntity;
+  }
+
+  get id(): IdType {
+    return this._id;
   }
 
   abstract toPrimitive(): PrimitiveEntity<unknown>;

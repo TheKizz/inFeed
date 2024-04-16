@@ -10,39 +10,61 @@ import { NestJwtServiceAdapter } from "src/modules/shared/infrastructure/adapter
 import { type IEncrypterService } from "src/modules/shared/core/application/encrypter-service.interface";
 import { type IJwtService } from "src/modules/shared/core/application/jwt-service.interface";
 import { PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
+import { FindUserByEmailUseCase } from "../../core/application/use-cases/find-user-by-email.use-case";
+import { LoginUserUseCase } from "../../core/application/use-cases/login-user.use-case";
 
 @Module({
   providers: [
+    // Repositories
     {
       provide: PrismaUserRepositoryAdapter,
       useFactory: (prismaClient: PrismaClientAdapter) =>
         new PrismaUserRepositoryAdapter(prismaClient),
       inject: [PrismaClientAdapter],
     },
+    // Use Cases
     {
       provide: RegisterUserUseCase,
       useFactory: (userRepository: IUserRepositoryPort) =>
         new RegisterUserUseCase(userRepository),
       inject: [PrismaUserRepositoryAdapter],
     },
+    {
+      provide: FindUserByEmailUseCase,
+      useFactory: (userRepository: IUserRepositoryPort) =>
+        new FindUserByEmailUseCase(userRepository),
+      inject: [PrismaUserRepositoryAdapter],
+    },
+    {
+      provide: LoginUserUseCase,
+      useFactory: (userRepository: IUserRepositoryPort) =>
+        new LoginUserUseCase(userRepository),
+      inject: [PrismaUserRepositoryAdapter],
+    },
+    // Services
     UserService,
     {
       provide: AuthServiceAdapter,
       useFactory: (
-        registerUserUseCase: RegisterUserUseCase,
         encrypterService: IEncrypterService,
         jwtService: IJwtService,
+        registerUserUseCase: RegisterUserUseCase,
+        findUserByEmail: FindUserByEmailUseCase,
+        loginUserUseCase: LoginUserUseCase,
       ) =>
         new AuthServiceAdapter(
-          registerUserUseCase,
           encrypterService,
           jwtService,
-          "secretOrPrivateKey",
+          registerUserUseCase,
+          findUserByEmail,
+          loginUserUseCase,
         ),
       inject: [
-        RegisterUserUseCase,
         BcryptEncrypterServiceAdapter,
         NestJwtServiceAdapter,
+        RegisterUserUseCase,
+        FindUserByEmailUseCase,
+        LoginUserUseCase,
       ],
     },
   ],

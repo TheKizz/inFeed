@@ -21,6 +21,10 @@ import { JwtModule, JwtService } from "@nestjs/jwt";
     BcryptEncrypterServiceAdapter,
     NestJwtServiceAdapter,
   ],
-  imports: [JwtModule.register({})],
+  imports: [
+    JwtModule.register({
+      secret: "secretKey",
+    }),
+  ],
 })
 export class SharedModule {}
