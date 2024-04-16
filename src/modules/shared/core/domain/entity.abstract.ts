@@ -1,3 +1,5 @@
+import { type ValueObject } from "./value-object.abstract";
+
 export interface PrimitiveEntity<IdType> {
   id: IdType;
 }
@@ -13,9 +15,9 @@ export abstract class Entity<IdType> {
     OutputType extends PrimitiveEntity<unknown>,
   >(): OutputType {
     const primitiveUserEntity: OutputType = Object.entries(this).reduce(
-      (object, [key, valueObject]) => {
+      (object, [key, valueObject]: [string, ValueObject]) => {
         const keyWithoutUnderscore: string = key.replace(/^_/, "");
-        return { ...object, [keyWithoutUnderscore]: valueObject.value };
+        return { ...object, [keyWithoutUnderscore]: valueObject.toPrimitive() };
       },
       {},
     ) as OutputType;
