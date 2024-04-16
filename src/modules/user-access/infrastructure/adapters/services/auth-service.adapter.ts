@@ -9,6 +9,7 @@ import { type IRegisterUserProps } from "src/modules/user-access/core/applicatio
 import { type IAuthServicePort } from "src/modules/user-access/core/application/ports/exit/auth-service.port";
 import { type RegisterUserUseCase } from "src/modules/user-access/core/application/use-cases/create-user.use-case";
 import { type LoginUserUseCase } from "src/modules/user-access/core/application/use-cases/login-user.use-case";
+import { type LogoutUserUseCase } from "src/modules/user-access/core/application/use-cases/logout-user.use-case";
 import { type UserEntity } from "src/modules/user-access/core/domain/entities/user.entity";
 
 export class AuthServiceAdapter implements IAuthServicePort {
@@ -18,6 +19,7 @@ export class AuthServiceAdapter implements IAuthServicePort {
     private readonly registerUserUseCase: RegisterUserUseCase,
     private readonly findUserByEmail: FindUserByEmailUseCase,
     private readonly loginUserUseCase: LoginUserUseCase,
+    private readonly logoutUserUseCase: LogoutUserUseCase,
   ) {}
 
   async register(registerUserProps: IRegisterUserProps): Promise<IAuthResult> {
@@ -58,5 +60,11 @@ export class AuthServiceAdapter implements IAuthServicePort {
       user: userEntity,
       token,
     };
+  }
+
+  async logout(userEmail: StringValueObject): Promise<void> {
+    const userEntity: UserEntity =
+      await this.findUserByEmail.execute(userEmail);
+    await this.logoutUserUseCase.execute(userEntity);
   }
 }

@@ -28,7 +28,7 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": RuleOptions.OFF,
     "@typescript-eslint/explicit-module-boundary-types": RuleOptions.OFF,
     "@typescript-eslint/no-explicit-any": RuleOptions.OFF,
-    "@typescript-eslint/no-unsafe-argument": RuleOptions.WARN,
+    "@typescript-eslint/no-unsafe-argument": RuleOptions.OFF,
     "@typescript-eslint/prefer-readonly": RuleOptions.OFF,
     "@typescript-eslint/no-extraneous-class": RuleOptions.OFF,
     "@typescript-eslint/strict-boolean-expressions": RuleOptions.OFF,

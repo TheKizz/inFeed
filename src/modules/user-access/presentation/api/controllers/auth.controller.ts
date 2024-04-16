@@ -1,5 +1,12 @@
 import { AuthServiceAdapter } from "./../../../infrastructure/adapters/services/auth-service.adapter";
-import { Body, Controller, HttpStatus, Inject, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Inject,
+  Param,
+  Post,
+} from "@nestjs/common";
 import { IAuthServicePort } from "src/modules/user-access/core/application/ports/exit/auth-service.port";
 import { RegisterUserDto } from "../dto/register-user.dto";
 import { type IAuthResult } from "src/modules/user-access/core/application/interfaces/auth-result";
@@ -8,6 +15,8 @@ import { UserEntity } from "src/modules/user-access/core/domain/entities/user.en
 import { type IResponse } from "src/modules/shared/presentation/interfaces/response.interface";
 import { LoginUserDto } from "../dto/login-user.dto";
 import { PublicResource } from "../consts/public-resource.const";
+import { StringValueObject } from "src/modules/shared/core/domain/string.value-object";
+import { ParseStringValueObjectPipe } from "src/modules/shared/presentation/pipes/parseStringValueObject.pipe";
 
 @PublicResource()
 @Controller("auth")
@@ -35,7 +44,6 @@ export class AuthController {
   }
 
   @Post("login")
-  // @PublicResource()
   async login(
     @Body() loginUserDto: LoginUserDto,
   ): Promise<IResponse<IAuthResult>> {
@@ -50,6 +58,18 @@ export class AuthController {
         ...data,
         user: primitiveUser,
       },
+    );
+  }
+
+  @Post("logout/:userEmail")
+  async logout(
+    @Param("userEmail", new ParseStringValueObjectPipe())
+    userEmail: StringValueObject,
+  ): Promise<IResponse<undefined>> {
+    await this.authService.logout(userEmail);
+    return ResponseFactory.createSuccessfulResponse(
+      HttpStatus.OK,
+      "Sesión cerrada exitosamente",
     );
   }
 }

@@ -14,6 +14,8 @@ import { FindUserByEmailUseCase } from "../../core/application/use-cases/find-us
 import { LoginUserUseCase } from "../../core/application/use-cases/login-user.use-case";
 import { APP_GUARD, Reflector } from "@nestjs/core";
 import { AuthGuard } from "../../presentation/api/guards/auth.guard";
+import { LogoutUserUseCase } from "../../core/application/use-cases/logout-user.use-case";
+import { type IUserServicePort } from "../../core/application/ports/entry/user-service.port";
 
 @Module({
   providers: [
@@ -23,9 +25,9 @@ import { AuthGuard } from "../../presentation/api/guards/auth.guard";
       useFactory: (
         jwtService: IJwtService,
         reflector: Reflector,
-        findUserByEmail: FindUserByEmailUseCase,
-      ) => new AuthGuard(jwtService, reflector, findUserByEmail),
-      inject: [NestJwtServiceAdapter, Reflector, FindUserByEmailUseCase],
+        userService: IUserServicePort,
+      ) => new AuthGuard(jwtService, reflector, userService),
+      inject: [NestJwtServiceAdapter, Reflector, UserService],
     },
     // Repositories
     {
@@ -53,6 +55,12 @@ import { AuthGuard } from "../../presentation/api/guards/auth.guard";
         new LoginUserUseCase(userRepository),
       inject: [PrismaUserRepositoryAdapter],
     },
+    {
+      provide: LogoutUserUseCase,
+      useFactory: (userRepository: IUserRepositoryPort) =>
+        new LogoutUserUseCase(userRepository),
+      inject: [PrismaUserRepositoryAdapter],
+    },
     // Services
     {
       provide: UserService,
@@ -68,6 +76,7 @@ import { AuthGuard } from "../../presentation/api/guards/auth.guard";
         registerUserUseCase: RegisterUserUseCase,
         findUserByEmail: FindUserByEmailUseCase,
         loginUserUseCase: LoginUserUseCase,
+        logoutUserUseCase: LogoutUserUseCase,
       ) =>
         new AuthServiceAdapter(
           encrypterService,
@@ -75,6 +84,7 @@ import { AuthGuard } from "../../presentation/api/guards/auth.guard";
           registerUserUseCase,
           findUserByEmail,
           loginUserUseCase,
+          logoutUserUseCase,
         ),
       inject: [
         BcryptEncrypterServiceAdapter,
@@ -82,6 +92,7 @@ import { AuthGuard } from "../../presentation/api/guards/auth.guard";
         RegisterUserUseCase,
         FindUserByEmailUseCase,
         LoginUserUseCase,
+        LogoutUserUseCase,
       ],
     },
   ],

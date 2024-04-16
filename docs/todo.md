@@ -7,7 +7,7 @@ User access module:
 - [x] Register
 - [ ] Verify registration
 - [x] Login
-- [ ] Logout
+- [x] Logout
 - [ ] Recover password
 - [ ] Change password
 - [ ] Manage user information

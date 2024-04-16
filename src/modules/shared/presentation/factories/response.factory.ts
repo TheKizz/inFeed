@@ -5,7 +5,7 @@ export class ResponseFactory {
   static createSuccessfulResponse<DataType>(
     statusCode: HttpStatus,
     message: string,
-    data: DataType,
+    data?: DataType,
   ): IResponse<DataType> {
     return {
       success: true,
