@@ -28,7 +28,7 @@ Survey module:
 - [ ] Create question
 - [ ] Create answer option
 - [ ] Manage survey
-  - [ ] Update survey
+  - [x] Update survey
   - [ ] Manage participants
     - [ ] Add participant
     - [ ] Remove participant
@@ -68,6 +68,7 @@ Survey module:
 
 - [ ] Improve logging
 - [ ] Improve error handling
+- [ ] Improve the survey update logic
 
 ## Bugs fix
 

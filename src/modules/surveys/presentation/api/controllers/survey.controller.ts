@@ -4,6 +4,8 @@ import {
   Get,
   HttpStatus,
   Inject,
+  Param,
+  Patch,
   Post,
   Query,
 } from "@nestjs/common";
@@ -23,6 +25,7 @@ import { CreateSurveyDto } from "../dto/create-survey.dto";
 import { AuthenticatedUser } from "src/modules/user-access/presentation/api/decorators/authenticated-user.decorator";
 import { ParseUUIDValueObjectPipe } from "src/modules/shared/presentation/pipes/parse-uuid-value-object.pipe";
 import { toPrimitivePaginatedResult } from "src/modules/shared/presentation/utils/to-primitive-paginated-result.util";
+import { UpdateSurveyDto } from "../dto/update-survey.dto";
 
 @Controller("surveys")
 export class SurveyController {
@@ -55,6 +58,24 @@ export class SurveyController {
     return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
       HttpStatus.CREATED,
       "Encuesta creada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Patch(":surveyId")
+  async updateSurvey(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) id: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Body() updateSurveyDto: UpdateSurveyDto,
+  ) {
+    const data: SurveyEntity = await this.surveyService.updateSurvey(
+      id,
+      surveyId,
+      updateSurveyDto,
+    );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
+      HttpStatus.OK,
+      "Encuesta actualizada",
       data.toPrimitive(),
     );
   }

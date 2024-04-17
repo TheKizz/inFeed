@@ -1,3 +1,4 @@
+import { type ISurveyEntityUpdateProps } from "./../../../domain/entities/survey.entity";
 import { type IPaginatedResult } from "src/modules/shared/core/application/paginated-result.interface";
 import { type IQuery } from "src/modules/shared/core/application/query.interface";
 import { type UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-object";
@@ -12,5 +13,10 @@ export interface ISurveyServicePort {
   ) => Promise<IPaginatedResult<UUIDValueObject, SurveyEntity>>;
   createSurvey: (
     surveyEntityCreationProps: ISurveyEntityCreationProps,
+  ) => Promise<SurveyEntity>;
+  updateSurvey: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    surveyEntityUpdateProps: ISurveyEntityUpdateProps,
   ) => Promise<SurveyEntity>;
 }

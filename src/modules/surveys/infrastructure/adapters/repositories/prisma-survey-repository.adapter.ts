@@ -28,23 +28,25 @@ export class PrismaSurveyRepositoryAdapter
           OR: [
             {
               id: {
-                equals: query.search,
+                equals: query?.search,
               },
             },
             {
               title: {
-                contains: query.search,
+                contains: query?.search,
               },
             },
             {
               description: {
-                contains: query.search,
+                contains: query?.search,
               },
             },
             {
-              isPublic: booleanValues.includes(query.search.toLocaleLowerCase())
+              isPublic: booleanValues.includes(
+                query?.search?.toLocaleLowerCase(),
+              )
                 ? {
-                    equals: Boolean(query.search),
+                    equals: Boolean(query?.search),
                   }
                 : undefined,
             },
@@ -52,33 +54,35 @@ export class PrismaSurveyRepositoryAdapter
               participationCondition: Object.values(
                 SurveyParticipationCondition,
               ).some(
-                (value: SurveyParticipationCondition) => query.search === value,
+                (value: SurveyParticipationCondition) =>
+                  query?.search === value,
               )
                 ? {
-                    equals: query.search as SurveyParticipationCondition,
+                    equals: query?.search as SurveyParticipationCondition,
                   }
                 : undefined,
             },
             {
               forceToRate: booleanValues.includes(
-                query.search.toLocaleLowerCase(),
+                query?.search?.toLocaleLowerCase(),
               )
                 ? {
-                    equals: Boolean(query.search),
+                    equals: Boolean(query?.search),
                   }
                 : undefined,
             },
             {
               rating:
-                !isNaN(parseFloat(query.search)) && !isNaN(Number(query.search))
+                !isNaN(parseFloat(query?.search)) &&
+                !isNaN(Number(query?.search))
                   ? {
-                      equals: Number(query.search),
+                      equals: Number(query?.search),
                     }
                   : undefined,
             },
             {
               creatorId: {
-                equals: query.search,
+                equals: query?.search,
               },
             },
             {
@@ -86,12 +90,12 @@ export class PrismaSurveyRepositoryAdapter
                 OR: [
                   {
                     username: {
-                      contains: query.search,
+                      contains: query?.search,
                     },
                   },
                   {
                     email: {
-                      contains: query.search,
+                      contains: query?.search,
                     },
                   },
                 ],
@@ -112,23 +116,25 @@ export class PrismaSurveyRepositoryAdapter
           OR: [
             {
               id: {
-                equals: query.search,
+                equals: query?.search,
               },
             },
             {
               title: {
-                contains: query.search,
+                contains: query?.search,
               },
             },
             {
               description: {
-                contains: query.search,
+                contains: query?.search,
               },
             },
             {
-              isPublic: booleanValues.includes(query.search.toLocaleLowerCase())
+              isPublic: booleanValues.includes(
+                query?.search?.toLocaleLowerCase(),
+              )
                 ? {
-                    equals: Boolean(query.search),
+                    equals: Boolean(query?.search),
                   }
                 : undefined,
             },
@@ -136,33 +142,35 @@ export class PrismaSurveyRepositoryAdapter
               participationCondition: Object.values(
                 SurveyParticipationCondition,
               ).some(
-                (value: SurveyParticipationCondition) => query.search === value,
+                (value: SurveyParticipationCondition) =>
+                  query?.search === value,
               )
                 ? {
-                    equals: query.search as SurveyParticipationCondition,
+                    equals: query?.search as SurveyParticipationCondition,
                   }
                 : undefined,
             },
             {
               forceToRate: booleanValues.includes(
-                query.search.toLocaleLowerCase(),
+                query?.search?.toLocaleLowerCase(),
               )
                 ? {
-                    equals: Boolean(query.search),
+                    equals: Boolean(query?.search),
                   }
                 : undefined,
             },
             {
               rating:
-                !isNaN(parseFloat(query.search)) && !isNaN(Number(query.search))
+                !isNaN(parseFloat(query?.search)) &&
+                !isNaN(Number(query?.search))
                   ? {
-                      equals: Number(query.search),
+                      equals: Number(query?.search),
                     }
                   : undefined,
             },
             {
               creatorId: {
-                equals: query.search,
+                equals: query?.search,
               },
             },
             {
@@ -170,12 +178,12 @@ export class PrismaSurveyRepositoryAdapter
                 OR: [
                   {
                     username: {
-                      contains: query.search,
+                      contains: query?.search,
                     },
                   },
                   {
                     email: {
-                      contains: query.search,
+                      contains: query?.search,
                     },
                   },
                 ],

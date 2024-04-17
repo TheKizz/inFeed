@@ -46,7 +46,6 @@ export class AuthGuard implements CanActivate {
           "No autorizado",
         );
       }
-      console.log({ user });
       if (!user.isOnline.toPrimitive()) {
         throw new UnauthorizedException(
           "El usuario no se encuentra conectado",

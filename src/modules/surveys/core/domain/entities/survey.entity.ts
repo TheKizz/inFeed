@@ -28,17 +28,10 @@ export interface ISurveyEntityProps
     Partial<Pick<SurveyEntity, "endsAt">> {}
 
 export interface ISurveyEntityCreationProps
-  extends Pick<
-    ISurveyEntityProps,
-    | "title"
-    | "description"
-    | "isPublic"
-    | "participationCondition"
-    | "forceToRate"
-    | "startsAt"
-    | "endsAt"
-    | "creatorId"
-  > {}
+  extends Omit<ISurveyEntityProps, "id" | "rating"> {}
+
+export interface ISurveyEntityUpdateProps
+  extends Partial<Omit<ISurveyEntityProps, "id" | "creatorId">> {}
 
 export interface IPrimitiveSurveyEntity extends PrimitiveEntity<string> {
   title: string;
@@ -107,6 +100,11 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
     });
   }
 
+  // TODO: Improve the survey update logic
+  update(surveyEntityUpdateProps: ISurveyEntityUpdateProps): void {
+    Object.assign(this, surveyEntityUpdateProps);
+  }
+
   static fromPrimitive(props: IPrimitiveSurveyEntity): SurveyEntity {
     const {
       id,
@@ -145,35 +143,73 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
     return this._title;
   }
 
+  private set title(title: StringValueObject) {
+    this._title = title;
+  }
+
   get description(): StringValueObject {
     return this._description;
+  }
+
+  private set description(description: StringValueObject) {
+    this._description = description;
   }
 
   get isPublic(): BooleanValueObject {
     return this._isPublic;
   }
 
+  private set isPublic(isPublic: BooleanValueObject) {
+    this._isPublic = isPublic;
+  }
+
   get participationCondition(): SurveyParticipationConditionValueObject {
     return this._participationCondition;
+  }
+
+  private set participationCondition(
+    participationCondition: SurveyParticipationConditionValueObject,
+  ) {
+    this._participationCondition = participationCondition;
   }
 
   get forceToRate(): BooleanValueObject {
     return this._forceToRate;
   }
 
+  private set forceToRate(forceToRate: BooleanValueObject) {
+    this._forceToRate = forceToRate;
+  }
+
   get rating(): NumericValueObject {
     return this._rating;
+  }
+
+  private set rating(rating: NumericValueObject) {
+    this._rating = rating;
   }
 
   get startsAt(): DateValueObject {
     return this._startsAt;
   }
 
+  private set startsAt(startsAt: DateValueObject) {
+    this._startsAt = startsAt;
+  }
+
   get endsAt(): DateValueObject | undefined {
     return this._endsAt;
   }
 
+  private set endsAt(endsAt: DateValueObject | undefined) {
+    this._endsAt = endsAt;
+  }
+
   get creatorId(): UUIDValueObject {
     return this._creatorId;
+  }
+
+  private set creatorId(creatorId: UUIDValueObject) {
+    this._creatorId = creatorId;
   }
 }
