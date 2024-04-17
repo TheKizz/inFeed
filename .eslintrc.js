@@ -32,5 +32,6 @@ module.exports = {
     "@typescript-eslint/prefer-readonly": RuleOptions.OFF,
     "@typescript-eslint/no-extraneous-class": RuleOptions.OFF,
     "@typescript-eslint/strict-boolean-expressions": RuleOptions.OFF,
+    "@typescript-eslint/consistent-type-imports": RuleOptions.WARN,
   },
 };

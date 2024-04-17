@@ -16,7 +16,7 @@ import { type IResponse } from "src/modules/shared/presentation/interfaces/respo
 import { LoginUserDto } from "../dto/login-user.dto";
 import { PublicResource } from "../consts/public-resource.const";
 import { StringValueObject } from "src/modules/shared/core/domain/string.value-object";
-import { ParseStringValueObjectPipe } from "src/modules/shared/presentation/pipes/parseStringValueObject.pipe";
+import { ParseStringValueObjectPipe } from "src/modules/shared/presentation/pipes/parse-string-value-object.pipe";
 
 @PublicResource()
 @Controller("auth")

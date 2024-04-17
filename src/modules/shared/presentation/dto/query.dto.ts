@@ -4,17 +4,17 @@ import { type IQuery } from "../../core/application/query.interface";
 export class QueryDto<IdType> implements IQuery<IdType> {
   @IsOptional()
   @IsString()
-  search: string = "";
+  readonly search: string = "";
 
   @IsOptional()
   @IsNumber()
-  elementsPerPage: number = 20;
+  readonly elementsPerPage: number = 20;
 
   @IsOptional()
   @IsNumber()
-  page: number = 1;
+  readonly page: number = 1;
 
   @IsOptional()
   @IsNotEmpty()
-  lastElementId?: IdType;
+  readonly lastElementId?: IdType;
 }

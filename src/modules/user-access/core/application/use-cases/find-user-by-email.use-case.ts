@@ -11,6 +11,8 @@ export class FindUserByEmailUseCase implements IUseCase<UserEntity> {
     const paginatedResult: IPaginatedResult<UUIDValueObject, UserEntity> =
       await this.userRepository.search({
         search: userEmail.value,
+        page: 1,
+        elementsPerPage: 1,
       });
     if (paginatedResult.totalElements !== 1) {
       throw new Error("Usuario no encontrado");
