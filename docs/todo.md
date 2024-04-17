@@ -25,8 +25,8 @@ Survey module:
   - [ ] Participate in survey
 - [ ] See participation's
 - [x] Create survey
-- [ ] Create question
-- [ ] Create answer option
+  - [ ] Create question
+    - [ ] Create answer option
 - [ ] Manage survey
   - [x] Update survey
   - [ ] Manage participants

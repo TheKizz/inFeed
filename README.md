@@ -134,9 +134,10 @@ Herramientas auxiliares utilizadas para la construcción y mantenimiento del pro
 [![Husky Badge](https://img.shields.io/badge/Husky-grey?style=flat&logo=husky)](https://typicode.github.io/husky/ "Enlace hacia la pagina oficial de Husky")
 [![Commitlint Badge](https://img.shields.io/badge/Commitlint-grey?style=flat&logo=commitlint)](https://commitlint.js.org/ "Enlace hacia la pagina oficial de Commitlint")
 [![Commitizen Badge](https://img.shields.io/badge/Commitizen-grey?style=flat&logo=commitizen)](https://commitizen-tools.github.io/commitizen/ "Enlace hacia la pagina oficial de Commitizen")
-[![Thunder Client Badge](https://img.shields.io/badge/Thunder%20Client-grey?style=flat&logo=thunder-client)](https://www.thunderclient.com/ "Enlace hacia la pagina oficial de Thunder Client")
+[![Postman Badge](https://img.shields.io/badge/Postman-grey?style=flat&logo=postman)](https://www.postman.com/ "Enlace hacia la pagina oficial de Postman")
 [![Swagger Badge](https://img.shields.io/badge/Swagger-grey?style=flat&logo=swagger)](https://swagger.io/ "Enlace hacia la pagina oficial de Swagger")
 [![Docker Badge](https://img.shields.io/badge/Docker-grey?style=flat&logo=docker)](https://www.docker.com/ "Enlace hacia la pagina oficial de Docker")
+[![Shields Badge](https://img.shields.io/badge/Shield-grey?style=flat&logo=shields)](https://shields.io/ "Enlace hacia la pagina oficial de Shields")
 
 _Pulsa la insignia para visitar el sitio web oficial de la tecnología._
 
