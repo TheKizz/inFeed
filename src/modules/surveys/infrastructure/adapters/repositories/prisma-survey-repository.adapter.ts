@@ -219,4 +219,12 @@ export class PrismaSurveyRepositoryAdapter
       },
     });
   }
+
+  async delete(surveyEntity: SurveyEntity): Promise<void> {
+    await this.prismaClient.survey.delete({
+      where: {
+        id: surveyEntity.id.toPrimitive(),
+      },
+    });
+  }
 }

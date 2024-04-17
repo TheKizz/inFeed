@@ -8,6 +8,7 @@ import { SurveyService } from "../../core/application/services/survey.service";
 import { CreateSurveyUseCase } from "../../core/application/use-cases/create-survey.use-case";
 import { FindSurveyByIdUseCase } from "../../core/application/use-cases/find-survey-by-id.use-case";
 import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-survey.use-case";
+import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-survey.use-case";
 
 @Module({
   providers: [
@@ -44,6 +45,13 @@ import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-sur
         new UpdateSurveyUseCase(repository),
       inject: [PrismaSurveyRepositoryAdapter],
     },
+    {
+      provide: DeleteSurveyUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) => {
+        return new DeleteSurveyUseCase(surveyRepository);
+      },
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
     // Services
     {
       provide: SurveyService,
@@ -52,18 +60,21 @@ import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-sur
         createSurveyUseCase: CreateSurveyUseCase,
         findSurveyByIdUseCase: FindSurveyByIdUseCase,
         updateSurveyUseCase: UpdateSurveyUseCase,
+        deleteSurveyUseCase: DeleteSurveyUseCase,
       ) =>
         new SurveyService(
           searchSurveyUseCase,
           createSurveyUseCase,
           findSurveyByIdUseCase,
           updateSurveyUseCase,
+          deleteSurveyUseCase,
         ),
       inject: [
         SearchSurveysUseCase,
         CreateSurveyUseCase,
         FindSurveyByIdUseCase,
         UpdateSurveyUseCase,
+        DeleteSurveyUseCase,
       ],
     },
   ],

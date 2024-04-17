@@ -4,5 +4,6 @@ import { type SurveyEntity } from "../../../domain/entities/survey.entity";
 
 export interface ISurveyRepositoryPort
   extends Pick<PaginatedRepository<UUIDValueObject, SurveyEntity>, "search"> {
-  save: (entity: SurveyEntity) => Promise<void>;
+  save: (surveyEntity: SurveyEntity) => Promise<void>;
+  delete: (surveyEntity: SurveyEntity) => Promise<void>;
 }

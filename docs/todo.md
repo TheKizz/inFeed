@@ -32,7 +32,7 @@ Survey module:
   - [ ] Manage participants
     - [ ] Add participant
     - [ ] Remove participant
-  - [ ] Delete survey
+  - [x] Delete survey
   - [ ] Manage questions
     - [ ] Update question
     - [ ] Delete question

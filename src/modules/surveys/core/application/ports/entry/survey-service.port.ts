@@ -19,4 +19,8 @@ export interface ISurveyServicePort {
     surveyId: UUIDValueObject,
     surveyEntityUpdateProps: ISurveyEntityUpdateProps,
   ) => Promise<SurveyEntity>;
+  deleteSurvey: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+  ) => Promise<SurveyEntity>;
 }

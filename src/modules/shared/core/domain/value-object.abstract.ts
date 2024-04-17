@@ -15,8 +15,8 @@ export abstract class ValueObject {
     }
   }
 
-  equals(valueObject: Record<string, unknown>): boolean {
-    return objectDeepEqual(this, valueObject);
+  equals(value: any): boolean {
+    return objectDeepEqual(this, value);
   }
 
   toString(): string {

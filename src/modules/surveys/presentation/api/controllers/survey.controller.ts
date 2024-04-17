@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Inject,
@@ -76,6 +77,22 @@ export class SurveyController {
     return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
       HttpStatus.OK,
       "Encuesta actualizada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Delete(":surveyId")
+  async deleteSurvey(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) id: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+  ) {
+    const data: SurveyEntity = await this.surveyService.deleteSurvey(
+      id,
+      surveyId,
+    );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
+      HttpStatus.OK,
+      "Encuesta eliminada",
       data.toPrimitive(),
     );
   }
