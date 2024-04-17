@@ -18,7 +18,7 @@ User access module:
 Survey module:
 
 - [x] Search surveys
-- [ ] See external surveys
+- [x] See external surveys
 - [ ] See own surveys
   - [ ] See participants
 - [ ] See survey details

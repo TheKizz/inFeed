@@ -11,15 +11,16 @@ export class SurveyParticipationConditionValueObject extends EnumValueObject<str
     super(Object.values(SurveyParticipationCondition), value);
   }
 
-  static ALL = new SurveyParticipationConditionValueObject(
+  static readonly ALL = new SurveyParticipationConditionValueObject(
     SurveyParticipationCondition.ALL,
   );
 
-  static GUEST_USERS = new SurveyParticipationConditionValueObject(
+  static readonly GUEST_USERS = new SurveyParticipationConditionValueObject(
     SurveyParticipationCondition.GUEST_USERS,
   );
 
-  static REGISTERED_USERS = new SurveyParticipationConditionValueObject(
-    SurveyParticipationCondition.REGISTERED_USERS,
-  );
+  static readonly REGISTERED_USERS =
+    new SurveyParticipationConditionValueObject(
+      SurveyParticipationCondition.REGISTERED_USERS,
+    );
 }
