@@ -10,6 +10,7 @@ import {
 } from "../value-objects/survey-participation-condition.value-object";
 import { NumericValueObject } from "src/modules/shared/core/domain/numeric.value-object";
 import { UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-object";
+import { DateValueObject } from "src/modules/shared/core/domain/date.value-object";
 
 export interface ISurveyEntityProps
   extends Pick<
@@ -58,9 +59,9 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
   private _participationCondition: SurveyParticipationConditionValueObject;
   private _forceToRate: BooleanValueObject;
   private _rating: NumericValueObject;
-  private _startsAt: Date;
-  private _endsAt?: Date;
-  private _creatorId: StringValueObject;
+  private _startsAt: DateValueObject;
+  private _endsAt?: DateValueObject;
+  private _creatorId: UUIDValueObject;
 
   constructor(props: ISurveyEntityProps) {
     const {
@@ -92,6 +93,17 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
       ...props,
       id: new UUIDValueObject(crypto.randomUUID()),
       rating: new NumericValueObject(0),
+      startsAt: new DateValueObject(
+        props.startsAt.toPrimitive(),
+        new Date(Date.now() - 1000 * 60), // 1 minute of delay to avoid race conditions
+        props.endsAt?.toPrimitive(),
+      ),
+      endsAt: props.endsAt
+        ? new DateValueObject(
+            props.endsAt.toPrimitive(),
+            props.startsAt.toPrimitive(),
+          )
+        : undefined,
     });
   }
 
@@ -118,9 +130,9 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
       ),
       forceToRate: new BooleanValueObject(forceToRate),
       rating: new NumericValueObject(rating),
-      startsAt: new Date(startsAt),
-      endsAt,
-      creatorId: new StringValueObject(creatorId),
+      startsAt: new DateValueObject(startsAt),
+      endsAt: endsAt ? new DateValueObject(endsAt) : undefined,
+      creatorId: new UUIDValueObject(creatorId),
     };
     return new SurveyEntity(surveyEntityProps);
   }
@@ -153,15 +165,15 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
     return this._rating;
   }
 
-  get startsAt(): Date {
+  get startsAt(): DateValueObject {
     return this._startsAt;
   }
 
-  get endsAt(): Date | undefined {
+  get endsAt(): DateValueObject | undefined {
     return this._endsAt;
   }
 
-  get creatorId(): StringValueObject {
+  get creatorId(): UUIDValueObject {
     return this._creatorId;
   }
 }

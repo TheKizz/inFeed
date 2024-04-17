@@ -5,7 +5,14 @@ export class BooleanValueObject extends ValueObject {
 
   constructor(value: boolean) {
     super(false, value);
+    this.validate(value);
     this.value = value;
+  }
+
+  protected validate(value: any): void {
+    if (typeof value !== "boolean") {
+      throw new Error(`El valor ${value} no es un boolean`);
+    }
   }
 
   toPrimitive(): boolean {

@@ -3,4 +3,6 @@ import { type UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-
 import { type SurveyEntity } from "../../../domain/entities/survey.entity";
 
 export interface ISurveyRepositoryPort
-  extends Pick<PaginatedRepository<UUIDValueObject, SurveyEntity>, "search"> {}
+  extends Pick<PaginatedRepository<UUIDValueObject, SurveyEntity>, "search"> {
+  save: (entity: SurveyEntity) => Promise<void>;
+}

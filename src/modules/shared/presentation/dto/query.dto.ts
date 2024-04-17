@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { type IQuery } from "../../core/application/query.interface";
+import { Type } from "class-transformer";
 
 export class QueryDto<IdType> implements IQuery<IdType> {
   @IsOptional()
@@ -7,10 +8,12 @@ export class QueryDto<IdType> implements IQuery<IdType> {
   readonly search: string = "";
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   readonly elementsPerPage: number = 20;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   readonly page: number = 1;
 

@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
 import { SearchSurveysUseCase } from "../../core/application/use-cases/search-surveys.use-case";
 import { type ISurveyRepositoryPort } from "../../core/application/ports/exit/survey-repository.port";
-import { SurveyController } from "../../core/presentation/api/controllers/survey.controller";
+import { SurveyController } from "../../presentation/api/controllers/survey.controller";
 import { PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
 import { PrismaSurveyRepositoryAdapter } from "../adapters/repositories/prisma-survey-repository.adapter";
 import { SurveyService } from "../../core/application/services/survey.service";
+import { CreateSurveyUseCase } from "../../core/application/use-cases/create-survey.use-case";
 
 @Module({
   providers: [
@@ -24,9 +25,19 @@ import { SurveyService } from "../../core/application/services/survey.service";
       inject: [PrismaSurveyRepositoryAdapter],
     },
     {
+      provide: CreateSurveyUseCase,
+      useFactory: (repository: ISurveyRepositoryPort) =>
+        new CreateSurveyUseCase(repository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    // Services
+    {
       provide: SurveyService,
-      useFactory: (useCase: SearchSurveysUseCase) => new SurveyService(useCase),
-      inject: [SearchSurveysUseCase],
+      useFactory: (
+        searchSurveyUseCase: SearchSurveysUseCase,
+        createSurveyUseCase: CreateSurveyUseCase,
+      ) => new SurveyService(searchSurveyUseCase, createSurveyUseCase),
+      inject: [SearchSurveysUseCase, CreateSurveyUseCase],
     },
   ],
   controllers: [SurveyController],

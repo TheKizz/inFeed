@@ -31,8 +31,8 @@ export class AuthServiceAdapter implements IAuthServicePort {
       password: new StringValueObject(hashedPassword),
     });
     const token: string = await this.jwtService.sign<IAuthPayload>({
-      id: userEntity.id,
-      email: userEntity.email,
+      id: userEntity.id.toPrimitive(),
+      email: userEntity.email.toPrimitive(),
     });
     return {
       user: userEntity,
@@ -53,8 +53,8 @@ export class AuthServiceAdapter implements IAuthServicePort {
     }
     userEntity = await this.loginUserUseCase.execute(userEntity);
     const token: string = await this.jwtService.sign<IAuthPayload>({
-      id: userEntity.id,
-      email: userEntity.email,
+      id: userEntity.id.toPrimitive(),
+      email: userEntity.email.toPrimitive(),
     });
     return {
       user: userEntity,

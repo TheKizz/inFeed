@@ -9,7 +9,7 @@ export class StringValueObject extends ValueObject {
     this.value = value;
   }
 
-  private validate(value: any): void {
+  protected validate(value: any): void {
     if (typeof value !== "string") {
       throw new Error(`El valor ${value} no es un string`);
     }

@@ -18,12 +18,21 @@ export abstract class PaginatedRepository<
       query?.elementsPerPage === undefined || query?.elementsPerPage <= 0
         ? 1
         : query?.elementsPerPage;
+    const firstPage: number = totalElements > 0 ? 1 : 0;
+    const totalPages: number = Math.ceil(totalElements / elementsPerPage);
+    const currentPage: number =
+      query?.page < firstPage
+        ? firstPage
+        : query?.page > totalPages
+          ? totalPages
+          : query?.page;
     return {
       query,
       result,
-      lastPage: Math.ceil(totalElements / elementsPerPage),
-      firstPage: totalElements > 0 ? 1 : 0,
-      totalPages: Math.ceil(totalElements / elementsPerPage),
+      currentPage,
+      lastPage: totalPages,
+      firstPage,
+      totalPages,
       totalElements,
     };
   }

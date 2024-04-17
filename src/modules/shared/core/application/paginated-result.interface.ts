@@ -1,9 +1,9 @@
-import { type Entity } from "../domain/entity.abstract";
 import { type IQuery } from "./query.interface";
 
-export interface IPaginatedResult<IdType, EntityType extends Entity<IdType>> {
+export interface IPaginatedResult<IdType, DataType> {
   query: IQuery<IdType>;
-  result: EntityType[];
+  result: DataType[];
+  currentPage: number;
   lastPage: number;
   firstPage: number;
   totalPages: number;

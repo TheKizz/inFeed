@@ -12,6 +12,7 @@ import { type IAuthPayload } from "src/modules/user-access/core/application/inte
 import { IJwtService } from "src/modules/shared/core/application/jwt-service.interface";
 import { TokenExpiredError } from "@nestjs/jwt";
 import { IUserServicePort } from "src/modules/user-access/core/application/ports/entry/user-service.port";
+import { StringValueObject } from "src/modules/shared/core/domain/string.value-object";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -36,14 +37,17 @@ export class AuthGuard implements CanActivate {
     }
     try {
       const payload: IAuthPayload = await this.jwtService.verify(token);
-      const user = await this.userService.findUserByEmail(payload.email);
+      const user = await this.userService.findUserByEmail(
+        new StringValueObject(payload.email),
+      );
       if (!user) {
         throw new UnauthorizedException(
           "El usuario no existe",
           "No autorizado",
         );
       }
-      if (!user.isOnline) {
+      console.log({ user });
+      if (!user.isOnline.toPrimitive()) {
         throw new UnauthorizedException(
           "El usuario no se encuentra conectado",
           "No autorizado",

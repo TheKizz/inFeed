@@ -15,9 +15,12 @@ export abstract class Entity<IdType> {
     OutputType extends PrimitiveEntity<unknown>,
   >(): OutputType {
     const primitiveUserEntity: OutputType = Object.entries(this).reduce(
-      (object, [key, valueObject]: [string, ValueObject]) => {
+      (object, [key, valueObject]: [string, ValueObject | undefined]) => {
         const keyWithoutUnderscore: string = key.replace(/^_/, "");
-        return { ...object, [keyWithoutUnderscore]: valueObject.toPrimitive() };
+        return {
+          ...object,
+          [keyWithoutUnderscore]: valueObject?.toPrimitive(),
+        };
       },
       {},
     ) as OutputType;

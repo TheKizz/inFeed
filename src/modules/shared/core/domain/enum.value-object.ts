@@ -9,13 +9,15 @@ export class EnumValueObject<
   constructor(acceptedValues: ValuesType[], value: ValuesType) {
     super(false, value);
     this.acceptedValues = new Set(acceptedValues);
-    this.validateValue(value);
+    this.validate(value);
     this.value = value;
   }
 
-  validateValue(value: any): void {
+  protected validate(value: any): void {
     if (!this.acceptedValues.has(value)) {
-      throw new Error(`El valor ${value} no es aceptado`);
+      throw new Error(
+        `El valor ${value} no es parte de los valores ${Array.from(this.acceptedValues).toLocaleString()}`,
+      );
     }
   }
 

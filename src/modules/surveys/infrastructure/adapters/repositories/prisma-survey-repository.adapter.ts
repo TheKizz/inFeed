@@ -69,11 +69,12 @@ export class PrismaSurveyRepositoryAdapter
                 : undefined,
             },
             {
-              rating: !isNaN(parseInt(query.search))
-                ? {
-                    equals: Number(query.search),
-                  }
-                : undefined,
+              rating:
+                !isNaN(parseFloat(query.search)) && !isNaN(Number(query.search))
+                  ? {
+                      equals: Number(query.search),
+                    }
+                  : undefined,
             },
             {
               creatorId: {
@@ -152,11 +153,12 @@ export class PrismaSurveyRepositoryAdapter
                 : undefined,
             },
             {
-              rating: !isNaN(parseInt(query.search))
-                ? {
-                    equals: Number(query.search),
-                  }
-                : undefined,
+              rating:
+                !isNaN(parseFloat(query.search)) && !isNaN(Number(query.search))
+                  ? {
+                      equals: Number(query.search),
+                    }
+                  : undefined,
             },
             {
               creatorId: {
@@ -196,5 +198,17 @@ export class PrismaSurveyRepositoryAdapter
     const paginatedResult: IPaginatedResult<UUIDValueObject, SurveyEntity> =
       this.buildPaginatedResult(query, surveyEntities, totalElements);
     return paginatedResult;
+  }
+
+  async save(surveyEntity: SurveyEntity): Promise<void> {
+    const primitiveUserEntity: IPrimitiveSurveyEntity =
+      surveyEntity.toPrimitive();
+    await this.prismaClient.survey.upsert({
+      create: primitiveUserEntity,
+      update: primitiveUserEntity,
+      where: {
+        id: primitiveUserEntity.id,
+      },
+    });
   }
 }

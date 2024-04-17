@@ -23,5 +23,6 @@ export abstract class ValueObject {
     return JSON.stringify(this);
   }
 
+  protected abstract validate(...args: any[]): void;
   abstract toPrimitive(): unknown;
 }

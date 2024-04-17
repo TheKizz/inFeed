@@ -63,7 +63,7 @@ export class AuthController {
 
   @Post("logout/:userEmail")
   async logout(
-    @Param("userEmail", new ParseStringValueObjectPipe())
+    @Param("userEmail", ParseStringValueObjectPipe)
     userEmail: StringValueObject,
   ): Promise<IResponse<undefined>> {
     await this.authService.logout(userEmail);
