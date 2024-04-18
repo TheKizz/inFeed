@@ -1,18 +1,21 @@
 import { Module } from "@nestjs/common";
-import { SearchSurveysUseCase } from "../../core/application/use-cases/search-surveys.use-case";
-import { type ISurveyRepositoryPort } from "../../core/application/ports/exit/survey-repository.port";
-import { SurveyController } from "../../presentation/api/controllers/survey.controller";
 import { PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
-import { PrismaSurveyRepositoryAdapter } from "../adapters/repositories/prisma-survey-repository.adapter";
+import { type ISurveyRepositoryPort } from "../../core/application/ports/exit/survey-repository.port";
 import { SurveyService } from "../../core/application/services/survey.service";
+import { CreateQuestionUseCase } from "../../core/application/use-cases/create-question.use-case";
 import { CreateSurveyUseCase } from "../../core/application/use-cases/create-survey.use-case";
-import { FindSurveyByIdUseCase } from "../../core/application/use-cases/find-survey-by-id.use-case";
-import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-survey.use-case";
 import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-survey.use-case";
+import { FindSurveyByIdUseCase } from "../../core/application/use-cases/find-survey-by-id.use-case";
+import { SearchSurveysUseCase } from "../../core/application/use-cases/search-surveys.use-case";
+import { UpdateQuestionByIdUseCase } from "../../core/application/use-cases/update-question-by-id.use-case";
+import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-survey.use-case";
+import { SurveyController } from "../../presentation/api/controllers/survey.controller";
+import { PrismaSurveyRepositoryAdapter } from "../adapters/repositories/prisma-survey-repository.adapter";
+import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/delete-question-by-id.use-case";
 
 @Module({
   providers: [
-    // Repositories
+    // REPOSITORIES
     {
       provide: PrismaSurveyRepositoryAdapter,
       useFactory: (prismaClient: PrismaClientAdapter) => {
@@ -20,7 +23,8 @@ import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-sur
       },
       inject: [PrismaClientAdapter],
     },
-    // Use Cases
+    // USE CASES
+    // Survey
     {
       provide: SearchSurveysUseCase,
       useFactory: (repository: ISurveyRepositoryPort) =>
@@ -47,12 +51,30 @@ import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-sur
     },
     {
       provide: DeleteSurveyUseCase,
-      useFactory: (surveyRepository: ISurveyRepositoryPort) => {
-        return new DeleteSurveyUseCase(surveyRepository);
-      },
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new DeleteSurveyUseCase(surveyRepository),
       inject: [PrismaSurveyRepositoryAdapter],
     },
-    // Services
+    // Question
+    {
+      provide: CreateQuestionUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new CreateQuestionUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    {
+      provide: UpdateQuestionByIdUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new UpdateQuestionByIdUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    {
+      provide: DeleteQuestionByIdUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new DeleteQuestionByIdUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    // SERVICES
     {
       provide: SurveyService,
       useFactory: (
@@ -61,6 +83,9 @@ import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-sur
         findSurveyByIdUseCase: FindSurveyByIdUseCase,
         updateSurveyUseCase: UpdateSurveyUseCase,
         deleteSurveyUseCase: DeleteSurveyUseCase,
+        createQuestionUseCase: CreateQuestionUseCase,
+        updateQuestionByIdUseCase: UpdateQuestionByIdUseCase,
+        deleteQuestionByIdUseCase: DeleteQuestionByIdUseCase,
       ) =>
         new SurveyService(
           searchSurveyUseCase,
@@ -68,6 +93,9 @@ import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-sur
           findSurveyByIdUseCase,
           updateSurveyUseCase,
           deleteSurveyUseCase,
+          createQuestionUseCase,
+          updateQuestionByIdUseCase,
+          deleteQuestionByIdUseCase,
         ),
       inject: [
         SearchSurveysUseCase,
@@ -75,6 +103,9 @@ import { DeleteSurveyUseCase } from "../../core/application/use-cases/delete-sur
         FindSurveyByIdUseCase,
         UpdateSurveyUseCase,
         DeleteSurveyUseCase,
+        CreateQuestionUseCase,
+        UpdateQuestionByIdUseCase,
+        DeleteQuestionByIdUseCase,
       ],
     },
   ],

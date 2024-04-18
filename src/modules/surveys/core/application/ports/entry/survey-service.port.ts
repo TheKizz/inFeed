@@ -6,6 +6,10 @@ import {
   type ISurveyEntityCreationProps,
   type SurveyEntity,
 } from "../../../domain/entities/survey.entity";
+import {
+  type IQuestionEntityCreationProps,
+  type QuestionEntity,
+} from "../../../domain/entities/question.entity";
 
 export interface ISurveyServicePort {
   searchSurveys: (
@@ -14,13 +18,29 @@ export interface ISurveyServicePort {
   createSurvey: (
     surveyEntityCreationProps: ISurveyEntityCreationProps,
   ) => Promise<SurveyEntity>;
-  updateSurvey: (
+  updateSurveyById: (
     userId: UUIDValueObject,
     surveyId: UUIDValueObject,
     surveyEntityUpdateProps: ISurveyEntityUpdateProps,
   ) => Promise<SurveyEntity>;
-  deleteSurvey: (
+  deleteSurveyById: (
     userId: UUIDValueObject,
     surveyId: UUIDValueObject,
   ) => Promise<SurveyEntity>;
+  createQuestion: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionEntityCreationProps: IQuestionEntityCreationProps,
+  ) => Promise<QuestionEntity>;
+  updateQuestionById: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    questionUpdateProps: ISurveyEntityUpdateProps,
+  ) => Promise<QuestionEntity>;
+  deleteQuestionById: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+  ) => Promise<QuestionEntity>;
 }

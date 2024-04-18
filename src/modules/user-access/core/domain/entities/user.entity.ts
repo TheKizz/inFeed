@@ -41,7 +41,7 @@ export class UserEntity extends Entity<UUIDValueObject> {
   static create(props: IUserEntityCreationProps): UserEntity {
     return new UserEntity({
       id: new UUIDValueObject(crypto.randomUUID()),
-      isOnline: new BooleanValueObject(false),
+      isOnline: new BooleanValueObject(true),
       ...props,
     });
   }

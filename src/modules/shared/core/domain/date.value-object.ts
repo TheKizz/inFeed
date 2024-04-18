@@ -5,22 +5,30 @@ export class DateValueObject extends ValueObject {
 
   constructor(value: string | Date, minDate?: Date, maxDate?: Date) {
     super(false, value);
-    this.validate(new Date(value), minDate, maxDate);
-    this.value = new Date(value);
+    const valueDate: Date = new Date(value);
+    this.validate(valueDate, minDate, maxDate);
+    this.value = valueDate;
   }
 
   protected validate(value: any, minDate?: Date, maxDate?: Date): void {
     if (!(value instanceof Date)) {
-      throw new Error("El valor debe ser una instancia de Date.");
+      throw new Error(
+        `El valor de ${DateValueObject.name} debe ser una instancia de Date.`,
+      );
+    }
+    if (isNaN(value.getTime())) {
+      throw new Error(
+        `El valor de ${DateValueObject.name} no es una fecha válida.`,
+      );
     }
     if (minDate && value < minDate) {
       throw new Error(
-        `El valor debe ser mayor o igual a ${minDate.toISOString()}`,
+        `El valor de ${DateValueObject.name}  debe ser mayor o igual a ${minDate.toISOString()}`,
       );
     }
     if (maxDate && value > maxDate) {
       throw new Error(
-        `El valor debe ser menor o igual a ${maxDate.toISOString()}`,
+        `El valor de ${DateValueObject.name}  debe ser menor o igual a ${maxDate.toISOString()}`,
       );
     }
   }

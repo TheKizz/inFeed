@@ -34,8 +34,8 @@ Survey module:
     - [ ] Remove participant
   - [x] Delete survey
   - [ ] Manage questions
-    - [ ] Update question
-    - [ ] Delete question
+    - [x] Update question
+    - [x] Delete question
     - [ ] Manage answers
       - [ ] Update answer
       - [ ] Delete answer

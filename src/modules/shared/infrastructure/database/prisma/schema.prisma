@@ -75,7 +75,7 @@ model Question {
   description   String
   type          QuestionType
   // Relations
-  survey        Survey             @relation(fields: [surveyId], references: [id])
+  survey        Survey             @relation(fields: [surveyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   answerOptions AnswerOption[]
   responses     QuestionResponse[]
 

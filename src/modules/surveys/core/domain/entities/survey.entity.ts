@@ -11,6 +11,12 @@ import {
 import { NumericValueObject } from "src/modules/shared/core/domain/numeric.value-object";
 import { UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-object";
 import { DateValueObject } from "src/modules/shared/core/domain/date.value-object";
+import {
+  type IQuestionEntityCreationProps,
+  type IQuestionEntityUpdateProps,
+  QuestionEntity,
+  type IPrimitiveQuestionEntity,
+} from "./question.entity";
 
 export interface ISurveyEntityProps
   extends Pick<
@@ -25,13 +31,15 @@ export interface ISurveyEntityProps
       | "startsAt"
       | "creatorId"
     >,
-    Partial<Pick<SurveyEntity, "endsAt">> {}
+    Partial<Pick<SurveyEntity, "endsAt" | "questions">> {}
 
 export interface ISurveyEntityCreationProps
-  extends Omit<ISurveyEntityProps, "id" | "rating"> {}
+  extends Omit<ISurveyEntityProps, "id" | "rating" | "questions"> {
+  questions?: IQuestionEntityCreationProps[];
+}
 
 export interface ISurveyEntityUpdateProps
-  extends Partial<Omit<ISurveyEntityProps, "id" | "creatorId">> {}
+  extends Partial<Omit<ISurveyEntityProps, "id" | "creatorId" | "questions">> {}
 
 export interface IPrimitiveSurveyEntity extends PrimitiveEntity<string> {
   title: string;
@@ -43,6 +51,7 @@ export interface IPrimitiveSurveyEntity extends PrimitiveEntity<string> {
   startsAt: Date;
   endsAt?: Date;
   creatorId: string;
+  questions: IPrimitiveQuestionEntity[];
 }
 
 export class SurveyEntity extends Entity<UUIDValueObject> {
@@ -55,6 +64,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
   private _startsAt: DateValueObject;
   private _endsAt?: DateValueObject;
   private _creatorId: UUIDValueObject;
+  private _questions: QuestionEntity[];
 
   constructor(props: ISurveyEntityProps) {
     const {
@@ -68,6 +78,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
       startsAt,
       endsAt,
       creatorId,
+      questions,
     } = props;
     super(id);
     this._title = title;
@@ -79,6 +90,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
     this._startsAt = startsAt;
     this._endsAt = endsAt;
     this._creatorId = creatorId;
+    this._questions = questions ?? [];
   }
 
   static create(props: ISurveyEntityCreationProps): SurveyEntity {
@@ -97,12 +109,10 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
             props.startsAt.toPrimitive(),
           )
         : undefined,
+      questions: props.questions?.map((questionCreationProps) =>
+        QuestionEntity.create(questionCreationProps),
+      ),
     });
-  }
-
-  // TODO: Improve the survey update logic
-  update(surveyEntityUpdateProps: ISurveyEntityUpdateProps): void {
-    Object.assign(this, surveyEntityUpdateProps);
   }
 
   static fromPrimitive(props: IPrimitiveSurveyEntity): SurveyEntity {
@@ -117,6 +127,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
       startsAt,
       endsAt,
       creatorId,
+      questions,
     } = props;
     const surveyEntityProps: ISurveyEntityProps = {
       id: new UUIDValueObject(id),
@@ -131,12 +142,70 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
       startsAt: new DateValueObject(startsAt),
       endsAt: endsAt ? new DateValueObject(endsAt) : undefined,
       creatorId: new UUIDValueObject(creatorId),
+      questions: questions?.map((question: IPrimitiveQuestionEntity) =>
+        QuestionEntity.fromPrimitive(question),
+      ),
     };
     return new SurveyEntity(surveyEntityProps);
   }
 
   toPrimitive(): IPrimitiveSurveyEntity {
     return this.getPrimitiveEntity<IPrimitiveSurveyEntity>();
+  }
+
+  // TODO: Improve the survey update logic
+  update(surveyEntityUpdateProps: ISurveyEntityUpdateProps): void {
+    Object.assign(this, surveyEntityUpdateProps);
+  }
+
+  createQuestion(
+    questionCreationProps: IQuestionEntityCreationProps,
+  ): QuestionEntity {
+    const question: QuestionEntity = QuestionEntity.create(
+      questionCreationProps,
+    );
+    this._questions.push(question);
+    return question;
+  }
+
+  updateQuestionById(
+    questionId: UUIDValueObject,
+    questionUpdateProps: IQuestionEntityUpdateProps,
+  ): QuestionEntity {
+    const question: QuestionEntity | undefined =
+      this.findQuestionById(questionId);
+    if (!question) {
+      throw new Error(
+        `La pregunta con id ${questionId.toPrimitive()} no existe`,
+      );
+    }
+    question.update(questionUpdateProps);
+    return question;
+  }
+
+  deleteQuestionById(questionId: UUIDValueObject): QuestionEntity {
+    let questionDeleted: QuestionEntity | undefined;
+    this._questions = this.questions.filter((question: QuestionEntity) => {
+      if (question.id.equals(questionId)) {
+        questionDeleted = question;
+        return false;
+      }
+      return true;
+    });
+    if (!questionDeleted) {
+      throw new Error(
+        `La pregunta con id ${questionId.toPrimitive()} no existe`,
+      );
+    }
+    return questionDeleted;
+  }
+
+  private findQuestionById(
+    questionId: UUIDValueObject,
+  ): QuestionEntity | undefined {
+    return this._questions.find((question: QuestionEntity) =>
+      question.id.equals(questionId),
+    );
   }
 
   get title(): StringValueObject {
@@ -211,5 +280,13 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
 
   private set creatorId(creatorId: UUIDValueObject) {
     this._creatorId = creatorId;
+  }
+
+  get questions(): QuestionEntity[] {
+    return this._questions;
+  }
+
+  private set questions(questions: QuestionEntity[]) {
+    this._questions = questions;
   }
 }

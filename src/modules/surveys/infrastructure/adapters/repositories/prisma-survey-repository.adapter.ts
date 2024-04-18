@@ -1,8 +1,13 @@
+import {
+  type IPrimitiveQuestionEntity,
+  type QuestionEntity,
+} from "./../../../core/domain/entities/question.entity";
 import { PaginatedRepository } from "src/modules/shared/core/application/paginated-repository.abstract";
 import { type IPaginatedResult } from "src/modules/shared/core/application/paginated-result.interface";
 import { type IQuery } from "src/modules/shared/core/application/query.interface";
 import { type UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-object";
 import { type PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
+import { type ISurveyRepositoryIncludes } from "src/modules/surveys/core/application/interfaces/survey-repository-includes.interface";
 import { type ISurveyRepositoryPort } from "src/modules/surveys/core/application/ports/exit/survey-repository.port";
 import {
   type IPrimitiveSurveyEntity,
@@ -20,6 +25,7 @@ export class PrismaSurveyRepositoryAdapter
 
   async search(
     query: IQuery<UUIDValueObject>,
+    includes?: ISurveyRepositoryIncludes,
   ): Promise<IPaginatedResult<UUIDValueObject, SurveyEntity>> {
     const booleanValues: string[] = ["true", "false"];
     const [surveys, totalElements] = await this.prismaClient.$transaction([
@@ -110,6 +116,7 @@ export class PrismaSurveyRepositoryAdapter
           : undefined,
         skip: query?.lastElementId ? 1 : 0,
         take: query.elementsPerPage,
+        include: includes,
       }),
       this.prismaClient.survey.count({
         where: {
@@ -211,11 +218,13 @@ export class PrismaSurveyRepositoryAdapter
   async save(surveyEntity: SurveyEntity): Promise<void> {
     const primitiveUserEntity: IPrimitiveSurveyEntity =
       surveyEntity.toPrimitive();
+    console.log({ primitiveUserEntity });
+    const { questions, ...rest } = primitiveUserEntity;
     await this.prismaClient.survey.upsert({
-      create: primitiveUserEntity,
-      update: primitiveUserEntity,
+      create: rest,
+      update: rest,
       where: {
-        id: primitiveUserEntity.id,
+        id: rest.id,
       },
     });
   }
@@ -224,6 +233,26 @@ export class PrismaSurveyRepositoryAdapter
     await this.prismaClient.survey.delete({
       where: {
         id: surveyEntity.id.toPrimitive(),
+      },
+    });
+  }
+
+  async saveQuestion(questionToSave: QuestionEntity): Promise<void> {
+    const primitiveQuestionEntity: IPrimitiveQuestionEntity =
+      questionToSave.toPrimitive();
+    await this.prismaClient.question.upsert({
+      create: primitiveQuestionEntity,
+      update: primitiveQuestionEntity,
+      where: {
+        id: primitiveQuestionEntity.id,
+      },
+    });
+  }
+
+  async deleteQuestion(questionToDelete: QuestionEntity): Promise<void> {
+    await this.prismaClient.question.delete({
+      where: {
+        id: questionToDelete.id.toPrimitive(),
       },
     });
   }

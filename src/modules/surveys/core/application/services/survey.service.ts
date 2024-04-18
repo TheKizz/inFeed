@@ -12,6 +12,13 @@ import { type CreateSurveyUseCase } from "../use-cases/create-survey.use-case";
 import { type FindSurveyByIdUseCase } from "../use-cases/find-survey-by-id.use-case";
 import { type UpdateSurveyUseCase } from "../use-cases/update-survey.use-case";
 import { type DeleteSurveyUseCase } from "../use-cases/delete-survey.use-case";
+import {
+  type IQuestionEntityCreationProps,
+  type QuestionEntity,
+} from "../../domain/entities/question.entity";
+import { type CreateQuestionUseCase } from "../use-cases/create-question.use-case";
+import { type UpdateQuestionByIdUseCase } from "../use-cases/update-question-by-id.use-case";
+import { type DeleteQuestionByIdUseCase } from "../use-cases/delete-question-by-id.use-case";
 
 export class SurveyService implements ISurveyServicePort {
   constructor(
@@ -20,6 +27,9 @@ export class SurveyService implements ISurveyServicePort {
     private readonly findSurveyByIdUseCase: FindSurveyByIdUseCase,
     private readonly updateSurveyUseCase: UpdateSurveyUseCase,
     private readonly deleteSurveyUseCase: DeleteSurveyUseCase,
+    private readonly createQuestionUseCase: CreateQuestionUseCase,
+    private readonly updateQuestionByIdUseCase: UpdateQuestionByIdUseCase,
+    private readonly deleteQuestionByIdUseCase: DeleteQuestionByIdUseCase,
   ) {}
 
   async searchSurveys(
@@ -34,18 +44,14 @@ export class SurveyService implements ISurveyServicePort {
     return await this.createSurveyUseCase.execute(surveyEntityCreationProps);
   }
 
-  async updateSurvey(
+  async updateSurveyById(
     userId: UUIDValueObject,
     surveyId: UUIDValueObject,
     surveyEntityUpdateProps: ISurveyEntityUpdateProps,
   ): Promise<SurveyEntity> {
     const survey: SurveyEntity =
       await this.findSurveyByIdUseCase.execute(surveyId);
-    if (survey.creatorId.value !== userId.value) {
-      throw new Error(
-        "No tienes permisos para actualizar la encuesta de otro usuario",
-      );
-    }
+    this.validateUserPermissions(userId, survey);
     const updatedSurvey: SurveyEntity = await this.updateSurveyUseCase.execute(
       survey,
       surveyEntityUpdateProps,
@@ -53,19 +59,72 @@ export class SurveyService implements ISurveyServicePort {
     return updatedSurvey;
   }
 
-  async deleteSurvey(
+  async deleteSurveyById(
     userId: UUIDValueObject,
     surveyId: UUIDValueObject,
   ): Promise<SurveyEntity> {
-    const surveyToDelete: SurveyEntity =
+    const survey: SurveyEntity =
       await this.findSurveyByIdUseCase.execute(surveyId);
-    if (!surveyToDelete.creatorId.equals(userId)) {
+    this.validateUserPermissions(userId, survey);
+    const deletedSurvey: SurveyEntity =
+      await this.deleteSurveyUseCase.execute(survey);
+    return deletedSurvey;
+  }
+
+  async createQuestion(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionEntityCreationProps: IQuestionEntityCreationProps,
+  ): Promise<QuestionEntity> {
+    const survey: SurveyEntity =
+      await this.findSurveyByIdUseCase.execute(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const question: QuestionEntity = await this.createQuestionUseCase.execute(
+      survey,
+      questionEntityCreationProps,
+    );
+    return question;
+  }
+
+  async updateQuestionById(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    questionUpdateProps: ISurveyEntityUpdateProps,
+  ): Promise<QuestionEntity> {
+    const survey: SurveyEntity =
+      await this.findSurveyByIdUseCase.execute(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const question: QuestionEntity =
+      await this.updateQuestionByIdUseCase.execute(
+        survey,
+        questionId,
+        questionUpdateProps,
+      );
+    return question;
+  }
+
+  async deleteQuestionById(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+  ): Promise<QuestionEntity> {
+    const survey: SurveyEntity =
+      await this.findSurveyByIdUseCase.execute(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const deletedQuestion: QuestionEntity =
+      await this.deleteQuestionByIdUseCase.execute(survey, questionId);
+    return deletedQuestion;
+  }
+
+  private validateUserPermissions(
+    userId: UUIDValueObject,
+    survey: SurveyEntity,
+  ): void {
+    if (!survey.creatorId.equals(userId)) {
       throw new Error(
-        "No tienes permisos para eliminar la encuesta de otro usuario",
+        "No tienes permisos para actualizar la encuesta de otro usuario",
       );
     }
-    const deletedSurvey: SurveyEntity =
-      await this.deleteSurveyUseCase.execute(surveyToDelete);
-    return deletedSurvey;
   }
 }

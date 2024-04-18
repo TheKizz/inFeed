@@ -8,11 +8,16 @@ export class FindSurveyByIdUseCase implements IUseCase<SurveyEntity> {
   constructor(private readonly surveyRepository: ISurveyRepositoryPort) {}
   async execute(surveyId: UUIDValueObject): Promise<SurveyEntity> {
     const paginatedResult: IPaginatedResult<UUIDValueObject, SurveyEntity> =
-      await this.surveyRepository.search({
-        search: surveyId.value,
-        page: 1,
-        elementsPerPage: 1,
-      });
+      await this.surveyRepository.search(
+        {
+          search: surveyId.value,
+          page: 1,
+          elementsPerPage: 1,
+        },
+        {
+          questions: true,
+        },
+      );
     if (paginatedResult.totalElements !== 1) {
       throw new Error("Encuesta no encontrada");
     }

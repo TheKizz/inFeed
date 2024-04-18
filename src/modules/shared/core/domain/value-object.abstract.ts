@@ -3,14 +3,14 @@ import { objectDeepEqual } from "./utils";
 export abstract class ValueObject {
   constructor(isOptional: boolean = false, ...values: unknown[]) {
     if (!isOptional) {
-      this.validateNotOptionalValues(...values);
+      this.validateNonOptionalValues(...values);
     }
   }
 
-  protected validateNotOptionalValues(...values: unknown[]): void {
+  protected validateNonOptionalValues(...values: unknown[]): void {
     for (const value of values) {
       if (value === null || value === undefined) {
-        throw new Error(`El valor no puede ser null o undefined`);
+        throw new Error(`El ValueObject no puede ser null o undefined`);
       }
     }
   }

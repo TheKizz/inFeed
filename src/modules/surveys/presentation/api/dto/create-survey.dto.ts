@@ -6,7 +6,15 @@ import { UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-objec
 import { Transform, Type } from "class-transformer";
 import { ValueObjectValidationWrapper } from "src/modules/shared/presentation/utils/value-object-validation-wrapper.util";
 import { DateValueObject } from "src/modules/shared/core/domain/date.value-object";
-import { IsEmpty, IsNotEmpty, IsOptional } from "class-validator";
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsEmpty,
+  IsNotEmpty,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
+import { CreateQuestionDto } from "./create-question.dto";
 
 export class CreateSurveyDto implements ISurveyEntityCreationProps {
   @IsNotEmpty()
@@ -64,4 +72,11 @@ export class CreateSurveyDto implements ISurveyEntityCreationProps {
 
   @IsEmpty()
   creatorId: UUIDValueObject;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @Type(() => CreateQuestionDto)
+  @ValidateNested({ each: true })
+  readonly questions?: CreateQuestionDto[];
 }

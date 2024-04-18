@@ -27,6 +27,12 @@ import { AuthenticatedUser } from "src/modules/user-access/presentation/api/deco
 import { ParseUUIDValueObjectPipe } from "src/modules/shared/presentation/pipes/parse-uuid-value-object.pipe";
 import { toPrimitivePaginatedResult } from "src/modules/shared/presentation/utils/to-primitive-paginated-result.util";
 import { UpdateSurveyDto } from "../dto/update-survey.dto";
+import { CreateQuestionDto } from "../dto/create-question.dto";
+import {
+  type IPrimitiveQuestionEntity,
+  type QuestionEntity,
+} from "src/modules/surveys/core/domain/entities/question.entity";
+import { UpdateQuestionDto } from "../dto/update-question.dto";
 
 @Controller("surveys")
 export class SurveyController {
@@ -51,9 +57,9 @@ export class SurveyController {
   @Post()
   async createSurvey(
     @Body() createSurveyDto: CreateSurveyDto,
-    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) id: UUIDValueObject,
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
   ): Promise<IResponse<IPrimitiveSurveyEntity>> {
-    createSurveyDto.creatorId = id;
+    createSurveyDto.creatorId = userId;
     const data: SurveyEntity =
       await this.surveyService.createSurvey(createSurveyDto);
     return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
@@ -65,12 +71,12 @@ export class SurveyController {
 
   @Patch(":surveyId")
   async updateSurvey(
-    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) id: UUIDValueObject,
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
     @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
     @Body() updateSurveyDto: UpdateSurveyDto,
-  ) {
-    const data: SurveyEntity = await this.surveyService.updateSurvey(
-      id,
+  ): Promise<IResponse<IPrimitiveSurveyEntity>> {
+    const data: SurveyEntity = await this.surveyService.updateSurveyById(
+      userId,
       surveyId,
       updateSurveyDto,
     );
@@ -83,16 +89,74 @@ export class SurveyController {
 
   @Delete(":surveyId")
   async deleteSurvey(
-    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) id: UUIDValueObject,
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
     @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
-  ) {
-    const data: SurveyEntity = await this.surveyService.deleteSurvey(
-      id,
+  ): Promise<IResponse<IPrimitiveSurveyEntity>> {
+    const data: SurveyEntity = await this.surveyService.deleteSurveyById(
+      userId,
       surveyId,
     );
     return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
       HttpStatus.OK,
       "Encuesta eliminada",
+      data.toPrimitive(),
+    );
+  }
+
+  // Questions
+  @Post(":surveyId/questions")
+  async createQuestion(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Body() createQuestionDto: CreateQuestionDto,
+  ): Promise<IResponse<IPrimitiveQuestionEntity>> {
+    createQuestionDto.surveyId = surveyId;
+    const data: QuestionEntity = await this.surveyService.createQuestion(
+      userId,
+      surveyId,
+      createQuestionDto,
+    );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveQuestionEntity>(
+      HttpStatus.CREATED,
+      "Pregunta creada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Patch(":surveyId/questions/:questionId")
+  async updateQuestion(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ): Promise<IResponse<IPrimitiveQuestionEntity>> {
+    const data: QuestionEntity = await this.surveyService.updateQuestionById(
+      userId,
+      surveyId,
+      questionId,
+      updateQuestionDto,
+    );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveQuestionEntity>(
+      HttpStatus.OK,
+      "Pregunta actualizada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Delete(":surveyId/questions/:questionId")
+  async deleteQuestionById(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
+  ): Promise<IResponse<IPrimitiveQuestionEntity>> {
+    const data: QuestionEntity = await this.surveyService.deleteQuestionById(
+      userId,
+      surveyId,
+      questionId,
+    );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveQuestionEntity>(
+      HttpStatus.OK,
+      "Pregunta eliminada",
       data.toPrimitive(),
     );
   }

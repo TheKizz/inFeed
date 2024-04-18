@@ -13,6 +13,8 @@ export class SearchSurveysUseCase
   async execute(
     query: IQuery<UUIDValueObject>,
   ): Promise<IPaginatedResult<UUIDValueObject, SurveyEntity>> {
-    return await this.surveyRepository.search(query);
+    return await this.surveyRepository.search(query, {
+      questions: true,
+    });
   }
 }

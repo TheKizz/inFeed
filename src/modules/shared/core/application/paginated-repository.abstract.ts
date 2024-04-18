@@ -8,6 +8,7 @@ export abstract class PaginatedRepository<
 > {
   abstract search(
     query: IQuery<IdType>,
+    ...args: any[]
   ): Promise<IPaginatedResult<IdType, EntityType>>;
   protected buildPaginatedResult(
     query: IQuery<IdType>,
@@ -20,12 +21,16 @@ export abstract class PaginatedRepository<
         : query?.elementsPerPage;
     const firstPage: number = totalElements > 0 ? 1 : 0;
     const totalPages: number = Math.ceil(totalElements / elementsPerPage);
-    const currentPage: number =
-      query?.page < firstPage
-        ? firstPage
-        : query?.page > totalPages
-          ? totalPages
-          : query?.page;
+    const [isLessThanFirstPage, isGreaterThanLastPage]: [boolean, boolean] = [
+      query?.page < firstPage,
+      query?.page > totalPages,
+    ];
+    const currentPage: number = isLessThanFirstPage
+      ? firstPage
+      : isGreaterThanLastPage
+        ? totalPages
+        : query?.page;
+
     return {
       query,
       result,
