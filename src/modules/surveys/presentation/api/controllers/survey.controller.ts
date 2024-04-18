@@ -54,6 +54,20 @@ export class SurveyController {
     >(HttpStatus.OK, "Encuestas encontradas", primitiveData);
   }
 
+  @Get(":surveyId")
+  @PublicResource()
+  async findSurveyById(
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+  ): Promise<IResponse<IPrimitiveSurveyEntity>> {
+    const data: SurveyEntity =
+      await this.surveyService.findSurveyById(surveyId);
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveSurveyEntity>(
+      HttpStatus.OK,
+      "Encuesta encontrada",
+      data.toPrimitive(),
+    );
+  }
+
   @Post()
   async createSurvey(
     @Body() createSurveyDto: CreateSurveyDto,

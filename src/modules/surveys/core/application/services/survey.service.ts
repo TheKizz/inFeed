@@ -38,6 +38,10 @@ export class SurveyService implements ISurveyServicePort {
     return await this.searchSurveyUseCase.execute(query);
   }
 
+  async findSurveyById(surveyId: UUIDValueObject): Promise<SurveyEntity> {
+    return await this.findSurveyByIdUseCase.execute(surveyId);
+  }
+
   async createSurvey(
     surveyEntityCreationProps: ISurveyEntityCreationProps,
   ): Promise<SurveyEntity> {
@@ -49,8 +53,7 @@ export class SurveyService implements ISurveyServicePort {
     surveyId: UUIDValueObject,
     surveyEntityUpdateProps: ISurveyEntityUpdateProps,
   ): Promise<SurveyEntity> {
-    const survey: SurveyEntity =
-      await this.findSurveyByIdUseCase.execute(surveyId);
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
     this.validateUserPermissions(userId, survey);
     const updatedSurvey: SurveyEntity = await this.updateSurveyUseCase.execute(
       survey,
@@ -63,8 +66,7 @@ export class SurveyService implements ISurveyServicePort {
     userId: UUIDValueObject,
     surveyId: UUIDValueObject,
   ): Promise<SurveyEntity> {
-    const survey: SurveyEntity =
-      await this.findSurveyByIdUseCase.execute(surveyId);
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
     this.validateUserPermissions(userId, survey);
     const deletedSurvey: SurveyEntity =
       await this.deleteSurveyUseCase.execute(survey);
@@ -76,8 +78,7 @@ export class SurveyService implements ISurveyServicePort {
     surveyId: UUIDValueObject,
     questionEntityCreationProps: IQuestionEntityCreationProps,
   ): Promise<QuestionEntity> {
-    const survey: SurveyEntity =
-      await this.findSurveyByIdUseCase.execute(surveyId);
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
     this.validateUserPermissions(userId, survey);
     const question: QuestionEntity = await this.createQuestionUseCase.execute(
       survey,
@@ -92,8 +93,7 @@ export class SurveyService implements ISurveyServicePort {
     questionId: UUIDValueObject,
     questionUpdateProps: ISurveyEntityUpdateProps,
   ): Promise<QuestionEntity> {
-    const survey: SurveyEntity =
-      await this.findSurveyByIdUseCase.execute(surveyId);
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
     this.validateUserPermissions(userId, survey);
     const question: QuestionEntity =
       await this.updateQuestionByIdUseCase.execute(
@@ -109,8 +109,7 @@ export class SurveyService implements ISurveyServicePort {
     surveyId: UUIDValueObject,
     questionId: UUIDValueObject,
   ): Promise<QuestionEntity> {
-    const survey: SurveyEntity =
-      await this.findSurveyByIdUseCase.execute(surveyId);
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
     this.validateUserPermissions(userId, survey);
     const deletedQuestion: QuestionEntity =
       await this.deleteQuestionByIdUseCase.execute(survey, questionId);

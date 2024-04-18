@@ -15,6 +15,7 @@ export interface ISurveyServicePort {
   searchSurveys: (
     query: IQuery<UUIDValueObject>,
   ) => Promise<IPaginatedResult<UUIDValueObject, SurveyEntity>>;
+  findSurveyById: (surveyId: UUIDValueObject) => Promise<SurveyEntity>;
   createSurvey: (
     surveyEntityCreationProps: ISurveyEntityCreationProps,
   ) => Promise<SurveyEntity>;
