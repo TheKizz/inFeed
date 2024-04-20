@@ -12,6 +12,9 @@ import { UpdateSurveyUseCase } from "../../core/application/use-cases/update-sur
 import { SurveyController } from "../../presentation/api/controllers/survey.controller";
 import { PrismaSurveyRepositoryAdapter } from "../adapters/repositories/prisma-survey-repository.adapter";
 import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/delete-question-by-id.use-case";
+import { CreateAnswerOptionUseCase } from "../../core/application/use-cases/create-answer-option.use-case";
+import { UpdateAnswerOptionByIdUseCase } from "../../core/application/use-cases/update-answer-option-by-id.use-case";
+import { DeleteAnswerOptionByIdUseCase } from "../../core/application/use-cases/delete-answer-option-by-id.use-case";
 
 @Module({
   providers: [
@@ -74,6 +77,25 @@ import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/dele
         new DeleteQuestionByIdUseCase(surveyRepository),
       inject: [PrismaSurveyRepositoryAdapter],
     },
+    // Answer
+    {
+      provide: CreateAnswerOptionUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new CreateAnswerOptionUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    {
+      provide: UpdateAnswerOptionByIdUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new UpdateAnswerOptionByIdUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
+    {
+      provide: DeleteAnswerOptionByIdUseCase,
+      useFactory: (surveyRepository: ISurveyRepositoryPort) =>
+        new DeleteAnswerOptionByIdUseCase(surveyRepository),
+      inject: [PrismaSurveyRepositoryAdapter],
+    },
     // SERVICES
     {
       provide: SurveyService,
@@ -86,6 +108,9 @@ import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/dele
         createQuestionUseCase: CreateQuestionUseCase,
         updateQuestionByIdUseCase: UpdateQuestionByIdUseCase,
         deleteQuestionByIdUseCase: DeleteQuestionByIdUseCase,
+        createAnswerOptionUseCase: CreateAnswerOptionUseCase,
+        updateAnswerOptionByIdUseCase: UpdateAnswerOptionByIdUseCase,
+        deleteAnswerOptionByIdUseCase: DeleteAnswerOptionByIdUseCase,
       ) =>
         new SurveyService(
           searchSurveyUseCase,
@@ -96,6 +121,9 @@ import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/dele
           createQuestionUseCase,
           updateQuestionByIdUseCase,
           deleteQuestionByIdUseCase,
+          createAnswerOptionUseCase,
+          updateAnswerOptionByIdUseCase,
+          deleteAnswerOptionByIdUseCase,
         ),
       inject: [
         SearchSurveysUseCase,
@@ -106,6 +134,9 @@ import { DeleteQuestionByIdUseCase } from "../../core/application/use-cases/dele
         CreateQuestionUseCase,
         UpdateQuestionByIdUseCase,
         DeleteQuestionByIdUseCase,
+        CreateAnswerOptionUseCase,
+        UpdateAnswerOptionByIdUseCase,
+        DeleteAnswerOptionByIdUseCase,
       ],
     },
   ],

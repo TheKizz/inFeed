@@ -93,9 +93,8 @@ model AnswerOption {
   id          String                 @id @map("ID_ANSWER_OPTION")
   questionId  String                 @map("FK_ID_QUESTION")
   description String
-  isCorrect   Boolean
   // Relations
-  question    Question               @relation(fields: [questionId], references: [id])
+  question    Question               @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   responses   AnswerOptionResponse[]
 
   @@index([questionId], map: "IDX_ANSWER_OPTION_QUESTION")

@@ -7,8 +7,12 @@ import { type IPaginatedResult } from "src/modules/shared/core/application/pagin
 import { type IQuery } from "src/modules/shared/core/application/query.interface";
 import { type UUIDValueObject } from "src/modules/shared/core/domain/uuid.value-object";
 import { type PrismaClientAdapter } from "src/modules/shared/infrastructure/clients/prisma.client";
-import { type ISurveyRepositoryIncludes } from "src/modules/surveys/core/application/interfaces/survey-repository-includes.interface";
+import { type ISurveyRepositoryInclude } from "src/modules/surveys/core/application/interfaces/survey-repository-include.interface";
 import { type ISurveyRepositoryPort } from "src/modules/surveys/core/application/ports/exit/survey-repository.port";
+import {
+  type AnswerOptionEntity,
+  type IPrimitiveAnswerOptionEntity,
+} from "src/modules/surveys/core/domain/entities/answer-option.entity";
 import {
   type IPrimitiveSurveyEntity,
   SurveyEntity,
@@ -25,7 +29,7 @@ export class PrismaSurveyRepositoryAdapter
 
   async search(
     query: IQuery<UUIDValueObject>,
-    includes?: ISurveyRepositoryIncludes,
+    includes?: ISurveyRepositoryInclude,
   ): Promise<IPaginatedResult<UUIDValueObject, SurveyEntity>> {
     const booleanValues: string[] = ["true", "false"];
     const [surveys, totalElements] = await this.prismaClient.$transaction([
@@ -218,7 +222,6 @@ export class PrismaSurveyRepositoryAdapter
   async save(surveyEntity: SurveyEntity): Promise<void> {
     const primitiveUserEntity: IPrimitiveSurveyEntity =
       surveyEntity.toPrimitive();
-    console.log({ primitiveUserEntity });
     const { questions, ...rest } = primitiveUserEntity;
     await this.prismaClient.survey.upsert({
       create: rest,
@@ -226,6 +229,13 @@ export class PrismaSurveyRepositoryAdapter
       where: {
         id: rest.id,
       },
+    });
+    Promise.all(
+      surveyEntity.questions.map(async (question) => {
+        await this.saveQuestion(question);
+      }),
+    ).catch((err) => {
+      throw err;
     });
   }
 
@@ -240,12 +250,27 @@ export class PrismaSurveyRepositoryAdapter
   async saveQuestion(questionToSave: QuestionEntity): Promise<void> {
     const primitiveQuestionEntity: IPrimitiveQuestionEntity =
       questionToSave.toPrimitive();
+    const { answerOptions, ...rest } = primitiveQuestionEntity;
     await this.prismaClient.question.upsert({
-      create: primitiveQuestionEntity,
-      update: primitiveQuestionEntity,
-      where: {
-        id: primitiveQuestionEntity.id,
+      create: rest,
+      update: {
+        ...rest,
+        answerOptions: answerOptions?.length
+          ? {
+              deleteMany: {},
+            }
+          : undefined,
       },
+      where: {
+        id: rest.id,
+      },
+    });
+    Promise.all(
+      questionToSave.answerOptions.map(async (answerOption) => {
+        await this.saveAnswerOption(answerOption);
+      }),
+    ).catch((err) => {
+      throw err;
     });
   }
 
@@ -253,6 +278,30 @@ export class PrismaSurveyRepositoryAdapter
     await this.prismaClient.question.delete({
       where: {
         id: questionToDelete.id.toPrimitive(),
+      },
+    });
+  }
+
+  async saveAnswerOption(
+    answerOptionEntity: AnswerOptionEntity,
+  ): Promise<void> {
+    const primitiveAnswerOptionEntity: IPrimitiveAnswerOptionEntity =
+      answerOptionEntity.toPrimitive();
+    await this.prismaClient.answerOption.upsert({
+      create: primitiveAnswerOptionEntity,
+      update: primitiveAnswerOptionEntity,
+      where: {
+        id: primitiveAnswerOptionEntity.id,
+      },
+    });
+  }
+
+  async deleteAnswerOption(
+    answerOptionToDelete: AnswerOptionEntity,
+  ): Promise<void> {
+    await this.prismaClient.answerOption.delete({
+      where: {
+        id: answerOptionToDelete.id.toPrimitive(),
       },
     });
   }

@@ -19,6 +19,14 @@ import {
 import { type CreateQuestionUseCase } from "../use-cases/create-question.use-case";
 import { type UpdateQuestionByIdUseCase } from "../use-cases/update-question-by-id.use-case";
 import { type DeleteQuestionByIdUseCase } from "../use-cases/delete-question-by-id.use-case";
+import {
+  type AnswerOptionEntity,
+  type IAnswerOptionEntityCreationProps,
+  type IAnswerOptionEntityUpdateProps,
+} from "../../domain/entities/answer-option.entity";
+import { type CreateAnswerOptionUseCase } from "../use-cases/create-answer-option.use-case";
+import { type UpdateAnswerOptionByIdUseCase } from "../use-cases/update-answer-option-by-id.use-case";
+import { type DeleteAnswerOptionByIdUseCase } from "../use-cases/delete-answer-option-by-id.use-case";
 
 export class SurveyService implements ISurveyServicePort {
   constructor(
@@ -30,6 +38,9 @@ export class SurveyService implements ISurveyServicePort {
     private readonly createQuestionUseCase: CreateQuestionUseCase,
     private readonly updateQuestionByIdUseCase: UpdateQuestionByIdUseCase,
     private readonly deleteQuestionByIdUseCase: DeleteQuestionByIdUseCase,
+    private readonly createAnswerOptionUseCase: CreateAnswerOptionUseCase,
+    private readonly updateAnswerOptionByIdUseCase: UpdateAnswerOptionByIdUseCase,
+    private readonly deleteAnswerOptionByIdUseCase: DeleteAnswerOptionByIdUseCase,
   ) {}
 
   async searchSurveys(
@@ -122,8 +133,79 @@ export class SurveyService implements ISurveyServicePort {
   ): void {
     if (!survey.creatorId.equals(userId)) {
       throw new Error(
-        "No tienes permisos para actualizar la encuesta de otro usuario",
+        "No tienes permisos para modificar la encuesta de otro usuario",
       );
     }
+  }
+
+  async createAnswerOption(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionCreationProps: IAnswerOptionEntityCreationProps,
+  ): Promise<AnswerOptionEntity> {
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const question: QuestionEntity | undefined =
+      survey.findQuestionById(questionId);
+    if (!question) {
+      throw new Error(
+        `La pregunta con id ${questionId.toPrimitive()} no existe`,
+      );
+    }
+    const answerOption: AnswerOptionEntity =
+      await this.createAnswerOptionUseCase.execute(
+        question,
+        answerOptionCreationProps,
+      );
+    return answerOption;
+  }
+
+  async updateAnswerOptionById(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionId: UUIDValueObject,
+    answerOptionUpdateProps: IAnswerOptionEntityUpdateProps,
+  ): Promise<AnswerOptionEntity> {
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const question: QuestionEntity | undefined =
+      survey.findQuestionById(questionId);
+    if (!question) {
+      throw new Error(
+        `La pregunta con id ${questionId.toPrimitive()} no existe`,
+      );
+    }
+    const answerOption: AnswerOptionEntity =
+      await this.updateAnswerOptionByIdUseCase.execute(
+        question,
+        answerOptionId,
+        answerOptionUpdateProps,
+      );
+    return answerOption;
+  }
+
+  async deleteAnswerOptionById(
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionId: UUIDValueObject,
+  ): Promise<AnswerOptionEntity> {
+    const survey: SurveyEntity = await this.findSurveyById(surveyId);
+    this.validateUserPermissions(userId, survey);
+    const question: QuestionEntity | undefined =
+      survey.findQuestionById(questionId);
+    if (!question) {
+      throw new Error(
+        `La pregunta con id ${questionId.toPrimitive()} no existe`,
+      );
+    }
+    const answerOption: AnswerOptionEntity =
+      await this.deleteAnswerOptionByIdUseCase.execute(
+        question,
+        answerOptionId,
+      );
+    return answerOption;
   }
 }

@@ -10,6 +10,11 @@ import {
   type IQuestionEntityCreationProps,
   type QuestionEntity,
 } from "../../../domain/entities/question.entity";
+import {
+  type AnswerOptionEntity,
+  type IAnswerOptionEntityCreationProps,
+  type IAnswerOptionEntityUpdateProps,
+} from "../../../domain/entities/answer-option.entity";
 
 export interface ISurveyServicePort {
   searchSurveys: (
@@ -44,4 +49,23 @@ export interface ISurveyServicePort {
     surveyId: UUIDValueObject,
     questionId: UUIDValueObject,
   ) => Promise<QuestionEntity>;
+  createAnswerOption: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionCreationProps: IAnswerOptionEntityCreationProps,
+  ) => Promise<AnswerOptionEntity>;
+  updateAnswerOptionById: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionId: UUIDValueObject,
+    answerOptionUpdateProps: IAnswerOptionEntityUpdateProps,
+  ) => Promise<AnswerOptionEntity>;
+  deleteAnswerOptionById: (
+    userId: UUIDValueObject,
+    surveyId: UUIDValueObject,
+    questionId: UUIDValueObject,
+    answerOptionId: UUIDValueObject,
+  ) => Promise<AnswerOptionEntity>;
 }

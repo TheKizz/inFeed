@@ -15,7 +15,11 @@ export class FindSurveyByIdUseCase implements IUseCase<SurveyEntity> {
           elementsPerPage: 1,
         },
         {
-          questions: true,
+          questions: {
+            include: {
+              answerOptions: true,
+            },
+          },
         },
       );
     if (paginatedResult.totalElements !== 1) {

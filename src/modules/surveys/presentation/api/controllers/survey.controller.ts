@@ -33,6 +33,11 @@ import {
   type QuestionEntity,
 } from "src/modules/surveys/core/domain/entities/question.entity";
 import { UpdateQuestionDto } from "../dto/update-question.dto";
+import { CreateAnswerOptionDto } from "../dto/create-answer-option.dto";
+import {
+  type AnswerOptionEntity,
+  type IPrimitiveAnswerOptionEntity,
+} from "src/modules/surveys/core/domain/entities/answer-option.entity";
 
 @Controller("surveys")
 export class SurveyController {
@@ -84,7 +89,7 @@ export class SurveyController {
   }
 
   @Patch(":surveyId")
-  async updateSurvey(
+  async updateSurveyById(
     @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
     @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
     @Body() updateSurveyDto: UpdateSurveyDto,
@@ -102,7 +107,7 @@ export class SurveyController {
   }
 
   @Delete(":surveyId")
-  async deleteSurvey(
+  async deleteSurveyById(
     @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
     @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
   ): Promise<IResponse<IPrimitiveSurveyEntity>> {
@@ -138,7 +143,7 @@ export class SurveyController {
   }
 
   @Patch(":surveyId/questions/:questionId")
-  async updateQuestion(
+  async updateQuestionById(
     @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
     @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
     @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
@@ -169,6 +174,75 @@ export class SurveyController {
       questionId,
     );
     return ResponseFactory.createSuccessfulResponse<IPrimitiveQuestionEntity>(
+      HttpStatus.OK,
+      "Pregunta eliminada",
+      data.toPrimitive(),
+    );
+  }
+
+  // Questions
+  @Post(":surveyId/questions/:questionId/answer-options")
+  async createAnswerOption(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
+    @Body() createAnswerOptionDto: CreateAnswerOptionDto,
+  ): Promise<IResponse<IPrimitiveAnswerOptionEntity>> {
+    createAnswerOptionDto.questionId = questionId;
+    const data: AnswerOptionEntity =
+      await this.surveyService.createAnswerOption(
+        userId,
+        surveyId,
+        questionId,
+        createAnswerOptionDto,
+      );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveAnswerOptionEntity>(
+      HttpStatus.CREATED,
+      "Opción de respuesta creada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Patch(":surveyId/questions/:questionId/answer-options/:answerOptionId")
+  async updateAnswerOptionById(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
+    @Param("answerOptionId", ParseUUIDValueObjectPipe)
+    answerOptionId: UUIDValueObject,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ): Promise<IResponse<IPrimitiveAnswerOptionEntity>> {
+    const data: AnswerOptionEntity =
+      await this.surveyService.updateAnswerOptionById(
+        userId,
+        surveyId,
+        questionId,
+        answerOptionId,
+        updateQuestionDto,
+      );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveAnswerOptionEntity>(
+      HttpStatus.OK,
+      "Opción de respuesta actualizada",
+      data.toPrimitive(),
+    );
+  }
+
+  @Delete(":surveyId/questions/:questionId/answer-options/:answerOptionId")
+  async deleteAnswerOptionById(
+    @AuthenticatedUser("id", ParseUUIDValueObjectPipe) userId: UUIDValueObject,
+    @Param("surveyId", ParseUUIDValueObjectPipe) surveyId: UUIDValueObject,
+    @Param("questionId", ParseUUIDValueObjectPipe) questionId: UUIDValueObject,
+    @Param("answerOptionId", ParseUUIDValueObjectPipe)
+    answerOptionId: UUIDValueObject,
+  ): Promise<IResponse<IPrimitiveAnswerOptionEntity>> {
+    const data: AnswerOptionEntity =
+      await this.surveyService.deleteAnswerOptionById(
+        userId,
+        surveyId,
+        questionId,
+        answerOptionId,
+      );
+    return ResponseFactory.createSuccessfulResponse<IPrimitiveAnswerOptionEntity>(
       HttpStatus.OK,
       "Pregunta eliminada",
       data.toPrimitive(),

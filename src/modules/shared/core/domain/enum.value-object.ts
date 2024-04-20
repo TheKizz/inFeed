@@ -21,7 +21,7 @@ export class EnumValueObject<
     }
   }
 
-  toPrimitive(): unknown {
+  toPrimitive(): ValuesType {
     return this.value;
   }
 }

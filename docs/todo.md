@@ -19,26 +19,26 @@ Survey module:
 
 - [x] Search surveys
 - [x] See external surveys
-- [ ] See own surveys
+- [x] See own surveys
   - [ ] See participants
 - [ ] See survey details
   - [ ] Participate in survey
 - [ ] See participation's
 - [x] Create survey
-  - [ ] Create question
-    - [ ] Create answer option
+  - [x] Create question
+    - [x] Create answer option
 - [ ] Manage survey
   - [x] Update survey
   - [ ] Manage participants
     - [ ] Add participant
     - [ ] Remove participant
   - [x] Delete survey
-  - [ ] Manage questions
+  - [x] Manage questions
     - [x] Update question
     - [x] Delete question
-    - [ ] Manage answers
-      - [ ] Update answer
-      - [ ] Delete answer
+    - [x] Manage answers
+      - [x] Update answer
+      - [x] Delete answer
 - [ ] Generate IA recommendation
 
 ## Tests

@@ -200,9 +200,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
     return questionDeleted;
   }
 
-  private findQuestionById(
-    questionId: UUIDValueObject,
-  ): QuestionEntity | undefined {
+  findQuestionById(questionId: UUIDValueObject): QuestionEntity | undefined {
     return this._questions.find((question: QuestionEntity) =>
       question.id.equals(questionId),
     );
