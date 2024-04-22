@@ -15,7 +15,6 @@ export interface IPrimitiveAnswerOptionEntity {
   id: string;
   questionId: string;
   description: string;
-  isCorrect: boolean;
 }
 
 export class AnswerOptionEntity extends Entity<UUIDValueObject> {

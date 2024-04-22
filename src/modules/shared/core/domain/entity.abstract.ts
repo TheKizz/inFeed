@@ -31,6 +31,10 @@ export abstract class Entity<IdType> {
     return primitiveEntity;
   }
 
+  copy(): Entity<IdType> {
+    return Object.assign(Object.create(this), this);
+  }
+
   get id(): IdType {
     return this._id;
   }

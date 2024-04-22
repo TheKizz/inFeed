@@ -31,7 +31,7 @@ export interface IPrimitiveQuestionEntity {
   surveyId: string;
   description: string;
   type: QuestionType;
-  answerOptions?: IPrimitiveAnswerOptionEntity[];
+  answerOptions: IPrimitiveAnswerOptionEntity[];
 }
 
 export class QuestionEntity extends Entity<UUIDValueObject> {
@@ -49,11 +49,13 @@ export class QuestionEntity extends Entity<UUIDValueObject> {
   }
 
   static create(props: IQuestionEntityCreationProps): QuestionEntity {
+    const id: UUIDValueObject = new UUIDValueObject(crypto.randomUUID());
+
     return new QuestionEntity({
       ...props,
-      id: new UUIDValueObject(crypto.randomUUID()),
+      id,
       answerOptions: props.answerOptions?.map((answerOptionProps) =>
-        AnswerOptionEntity.create(answerOptionProps),
+        AnswerOptionEntity.create({ ...answerOptionProps, questionId: id }),
       ),
     });
   }

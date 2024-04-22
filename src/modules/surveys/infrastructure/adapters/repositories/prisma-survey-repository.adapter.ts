@@ -1,6 +1,6 @@
 import {
-  type IPrimitiveQuestionEntity,
   type QuestionEntity,
+  type IPrimitiveQuestionEntity,
 } from "./../../../core/domain/entities/question.entity";
 import { PaginatedRepository } from "src/modules/shared/core/application/paginated-repository.abstract";
 import { type IPaginatedResult } from "src/modules/shared/core/application/paginated-result.interface";

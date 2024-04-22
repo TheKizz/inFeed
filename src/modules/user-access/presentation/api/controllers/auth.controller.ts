@@ -53,7 +53,7 @@ export class AuthController {
     delete primitiveUser.password;
     return ResponseFactory.createSuccessfulResponse(
       HttpStatus.CREATED,
-      "Usuario registrado exitosamente",
+      "Usuario logueado exitosamente",
       {
         ...data,
         user: primitiveUser,

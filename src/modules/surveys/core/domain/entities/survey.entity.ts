@@ -94,9 +94,10 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
   }
 
   static create(props: ISurveyEntityCreationProps): SurveyEntity {
+    const id: UUIDValueObject = new UUIDValueObject(crypto.randomUUID());
     return new SurveyEntity({
       ...props,
-      id: new UUIDValueObject(crypto.randomUUID()),
+      id,
       rating: new NumericValueObject(0),
       startsAt: new DateValueObject(
         props.startsAt.toPrimitive(),
@@ -110,7 +111,7 @@ export class SurveyEntity extends Entity<UUIDValueObject> {
           )
         : undefined,
       questions: props.questions?.map((questionCreationProps) =>
-        QuestionEntity.create(questionCreationProps),
+        QuestionEntity.create({ ...questionCreationProps, surveyId: id }),
       ),
     });
   }
